@@ -1,0 +1,10 @@
+<!--index.wxml-->
+<view class="container">
+  <view>
+      <text class="sub-text" id="sub-tex">{{Liqi}}</text>
+  </view>
+  <button bindtap="test">test</button>
+  <button bindtap="doOnetTest">onetTest</button>
+
+  
+</view>

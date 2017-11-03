@@ -1,0 +1,45 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/devices/devices",
+    "pages/groups/groups",
+    "pages/exceptions/exceptions",
+    "pages/user/user"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "selectedIconPath":"images/icon/device_1.png",
+        "iconPath":"images/icon/device_0.png",
+        "pagePath": "pages/devices/devices",
+        "text": "设备"
+      },
+      {
+        "selectedIconPath": "images/icon/group_1.png",
+        "iconPath": "images/icon/group_0.png",
+        "pagePath": "pages/groups/groups",
+        "text": "组别"
+      },
+      {
+        "selectedIconPath": "images/icon/exception_1.png",
+        "iconPath": "images/icon/exception_0.png",
+        "pagePath": "pages/exceptions/exceptions",
+        "text": "异常"
+      },
+      {
+        "selectedIconPath": "images/icon/user_1.png",
+        "iconPath": "images/icon/user_0.png",
+        "pagePath": "pages/user/user",
+        "text": "用户"
+      }
+    ]
+  }
+  
+}

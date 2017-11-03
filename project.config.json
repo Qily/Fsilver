@@ -1,0 +1,12 @@
+{
+	"client": "./client",
+	"server": "./server",
+	"miniprogramRoot": "./client",
+	"qcloudRoot": "./server",
+	"appid": "wx9d1efcd90caa2be5",
+	"projectname": "Fsilver",
+	"setting": {
+		"newFeature": true
+	},
+	"condition": {}
+}

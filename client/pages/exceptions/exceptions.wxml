@@ -1,0 +1,9 @@
+<!--index.wxml-->
+<view class="container">
+  <view>
+      <text class="sub-text" id="sub-tex">{{Liqi}}</text>
+  </view>
+
+
+  
+</view>

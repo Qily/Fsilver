@@ -1,0 +1,25 @@
+/**index.wxss**/
+image{
+  width:200px;
+  height:80px;
+  padding-bottom: 30px;
+}
+
+input{
+  background-color: #eee;
+  border: 1px solid #ddd;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.username{
+  padding-bottom: 10px;
+}
+
+.password{
+  padding-bottom: 20px;
+}
+
+button{
+  width:78%;
+}
