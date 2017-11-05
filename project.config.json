@@ -4,7 +4,7 @@
 	"miniprogramRoot": "./client",
 	"qcloudRoot": "./server",
 	"appid": "wx9d1efcd90caa2be5",
-	"projectname": "Fsilver",
+	"projectname": "Fsilver-256",
 	"setting": {
 		"newFeature": true
 	},

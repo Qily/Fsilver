@@ -4,6 +4,6 @@ const app = getApp()
 
 Page({
   data: {
-    Liqi: '这是组别信息test1',
+    Liqi: '这是组别信息test2',
   }
 })
