@@ -1,4 +1,5 @@
 //index.js
+const my_config = require("../../commons/config.js");
 //获取应用实例
 const app = getApp()
 var bodyHeight = 500;
@@ -22,9 +23,9 @@ Page({
       allViewHeight:bodyHeight,
     })
   },
-  test:function(){
+  testMysql:function(){
     const requestTask = wx.request({
-      url: 'https://tfyly2id.qcloud.la/weapp/tes', //仅为示例，并非真实的接口地址
+      url: my_config.host + '/weapp/tes', //仅为示例，并非真实的接口地址
       method: 'GET',
       header: {
         'content-type': 'application/x-www-form-urlencoded'
@@ -36,5 +37,23 @@ Page({
         console.log(err)
       }
     })
+  },
+
+  testOnet:function(){
+    wx.request({
+      url: my_config.host + '/weapp/onet',
+      method: 'GET',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        console.log(res.data)
+      },
+      fail: function (err) {
+        console.log("get Onet data error:", err);
+      }
+    })
   }
+
+
 })

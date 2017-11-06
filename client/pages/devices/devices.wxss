@@ -59,7 +59,3 @@ scroll-view{
   height: 40px;
   align-items: center;
 }
-
-#test1{
-  color: #234;
-}

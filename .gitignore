@@ -2,3 +2,5 @@
 /server/package-lock.json
 *.bak
 .gitignore
+.project.config.json
+/server/config.js

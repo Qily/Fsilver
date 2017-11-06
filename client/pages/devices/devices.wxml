@@ -2,7 +2,7 @@
   <view class="section__title" bindtap="test">{{title}}</view>
 
   <view class="line line-control">
-    <view class="device-name" bindtap="test" id="test1">第一个设备
+    <view class="device-name" bindtap="testMysql">第一个设备
       <view>
         <text class="device-detail" bindtap='getDeviceDetail'>详 情 ></text>
       </view>
@@ -10,7 +10,7 @@
   </view>
 
   <view class="line line-control">
-    <view class="device-name">第二个设备
+    <view class="device-name" bindtap="testOnet">第二个设备
       <view>
         <text class="device-detail">详 情 ></text>
       </view>
