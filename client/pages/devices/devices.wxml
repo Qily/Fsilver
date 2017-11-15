@@ -17,7 +17,7 @@
     </view>
   </view>
   <view class="line line-control">
-    <view class="device-name">第三个设备
+    <view class="device-name" bindtap="testScan">第三个设备
       <view>
         <text class="device-detail">详 情 ></text>
       </view>
