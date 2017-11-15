@@ -4,3 +4,4 @@
 .gitignore
 .project.config.json
 /server/config.js
+/client/commons/config.js

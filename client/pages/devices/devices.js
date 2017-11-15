@@ -10,9 +10,6 @@ Page({
     title: '设备信息',
     allViewHeight: bodyHeight,
   },
-
-  
-
   onLoad:function(){
     wx.getSystemInfo({
       success: function(res) {
@@ -35,6 +32,15 @@ Page({
       },
       fail: function (err) {
         console.log(err)
+      }
+    })
+  },
+
+  testScan:function(){
+    wx.scanCode({
+      onlyFromCamera: true,
+      success: (res) => {
+        console.log(res)
       }
     })
   },
