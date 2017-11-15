@@ -3,5 +3,4 @@
 *.bak
 .project.config.json
 /server/config.js
-<<<<<<< HEAD
 /client/commons/config.js
