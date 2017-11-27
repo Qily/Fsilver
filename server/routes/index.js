@@ -12,6 +12,4 @@ router.get('/tes', controllers.sqloper.username);
 //云平台交互测试
 router.get('/onet', controllers.onet.onetTest);
 
-
-
 module.exports = router

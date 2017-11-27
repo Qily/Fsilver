@@ -9,32 +9,51 @@ Page({
   data: {
     title: '设备信息',
     allViewHeight: bodyHeight,
+    devices:null,
   },
   onLoad:function(){
-    wx.getSystemInfo({
-      success: function(res) {
-        bodyHeight = res.windowHeight - 100;
-      },
-    })
-    this.setData({
-      allViewHeight:bodyHeight,
-    })
-  },
-  testMysql:function(){
+    var that = this;
     const requestTask = wx.request({
-      url: my_config.host + '/weapp/tes', //仅为示例，并非真实的接口地址
+      url: my_config.host + '/weapp/tes?id=6', //仅为示例，并非真实的接口地址
       method: 'GET',
       header: {
         'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
-        console.log(res.data)
+        // console.log(res.data.GroupId[0].gname)
+        that.setData({
+          devices: res.data.GroupId
+        })
       },
       fail: function (err) {
         console.log(err)
       }
     })
   },
+  testMysql:function(){
+    var that = this;
+    const requestTask = wx.request({
+      url: my_config.host + '/weapp/tes?id=6', //仅为示例，并非真实的接口地址
+      method: 'GET',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        // console.log(res.data.GroupId[0].gname)
+        that.setData({
+          devices:res.data.GroupId[0].gname
+        })
+      },
+      fail: function (err) {
+        console.log(err)
+      }
+    })
+  },
+  // testMysql: function () {
+  //   this.setData({
+  //     devices:"bb"
+  //   })
+  // },
 
   testScan:function(){
     wx.scanCode({
