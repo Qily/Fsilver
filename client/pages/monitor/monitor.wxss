@@ -1,0 +1,35 @@
+/**index.wxss**/
+.root{
+   background-color: #efeff4; 
+  /* opacity: 0.2; */
+  position: absolute; 
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+.device{
+  height: 120px;
+  background-color: rgba(255, 255, 40, 0.5);
+  margin: 10px; 
+}
+.device-img{
+  margin: 20px;
+}
+.device-gname{
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 12px;
+  margin-left: 16px;
+  position: relative;
+  top: -22px
+}
+.device-name{
+  font-size: 16px;
+  position: relative;
+  top: -22px;
+}
+.sensors image{
+  /* padding-left: 20px; */
+  margin-left: 40px;
+  float: left;
+}

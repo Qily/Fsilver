@@ -1,0 +1,27 @@
+<scroll-view scroll-y class="root">
+  <view wx:for="{{deviceNames}}">
+    <view class="line line-control device">
+      <view>
+        <image class="device-img" src="../../images/icon/monitor_device.png" style='width:24px;height:24px'></image>
+        <text class="device-name">{{deviceNames[index]}}</text>
+        <text class="device-gname">{{gnames[index]}}</text>
+        <view wx:for="{{sensors[index]}}" >
+        <view class="sensors">
+            <view wx:if="{{sensors[index][index] == 'humidity_data_flow'}}">
+              <image src="../../images/icon/monitor_humi.png" style='width:24px;height:24px'></image>
+            </view> 
+            <view wx:if="{{sensors[index][index] == 'temperature_data_flow'}}">
+              <image src="../../images/icon/monitor_temp.png" style='width:24px;height:24px'></image>
+            </view> 
+            <view wx:if="{{sensors[index][index] == 'close_on_data_flow'}}">
+              <image src="../../images/icon/monitor_close_on.png" style='width:24px;height:24px'></image>
+            </view>  
+          </view>
+        </view>
+
+        <view>
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>

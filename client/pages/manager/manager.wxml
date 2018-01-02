@@ -1,0 +1,4 @@
+<!--pages/manager/manager.wxml-->
+<view>
+  <input class="search-device" placeholder="搜索"></input>
+</view>

@@ -1,0 +1,7 @@
+/* pages/manager/manager.wxss */
+.search-device{
+  background-color: rgba(240, 240, 240, 0.6);
+  font-size: 16px;
+  height: 24px;
+  padding-bottom: 8px;
+}
