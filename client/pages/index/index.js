@@ -5,7 +5,7 @@ const app = getApp()
 Page({
   enter:function(){
     wx.switchTab({
-      url: '../devices/devices'
+      url: '../home/home'
     })
   }
   
