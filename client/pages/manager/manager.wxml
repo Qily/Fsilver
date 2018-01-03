@@ -1,4 +1,24 @@
 <!--pages/manager/manager.wxml-->
-<view>
-  <input class="search-device" placeholder="搜索"></input>
-</view>
+<!-- <view class="body"> -->
+  <view class="nav">
+    <view class="{{deviceSelected?'red':'default'}} devices" bindtap="deviceSelected">设备</view>
+    <view class="{{groupSelected?'red':'default'}}" bindtap="groupSelected">组别</view>
+  </view>
+  <view class="{{deviceSelected?'show':'hidden'}}">
+    <view wx:for="{{deviceNames}}">
+      <view>
+        <view class="device-name" catchlongpress="deleteDevice" bindtap='deviceDetail' data-dname="{{deviceNames[index]}}">
+          <text>{{deviceNames[index]}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="device-add">
+      <button type="primary" bindtap='deviceAdd'>添加设备</button>
+    </view>
+  </view>
+  <view class="{{groupSelected?'show':'hidden'}}">
+    <view class="group-add">
+      <button type="primary" bindtap='groupAdd'>添加组别</button>
+    </view>
+  </view>
+<!-- </view> -->

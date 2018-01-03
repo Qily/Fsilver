@@ -10,7 +10,7 @@
 }
 .device{
   height: 120px;
-  background-color: rgba(255, 255, 40, 0.5);
+  background-color: rgba(240, 240, 153, 0.15);
   margin: 10px; 
 }
 .device-img{
@@ -28,8 +28,9 @@
   position: relative;
   top: -22px;
 }
-.sensors image{
-  /* padding-left: 20px; */
-  margin-left: 40px;
-  float: left;
+.sensors{
+  margin-left: 20px;
+  float:left;
 }
+
+

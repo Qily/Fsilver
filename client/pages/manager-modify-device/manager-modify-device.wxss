@@ -1,0 +1,23 @@
+/* pages/manager-modify-device/manager-modify-device.wxss */
+.name-info{
+  color: #888888;
+  font-size: 14pt;
+  margin-top: 15px;
+  margin-bottom: 8px;
+  margin-left: 16px;
+}
+
+.value-info{
+  background-color: #fff;
+  padding: 8px;
+  padding-left:16px; 
+  font-size: 17pt;
+}
+textarea{
+  padding-left: 16px;
+  font-size: 14pt;
+  color: #010101;
+}
+.save-info{
+  margin:32px;
+}
