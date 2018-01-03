@@ -5,13 +5,14 @@
     "pages/home/home",
     "pages/monitor/monitor",
     "pages/manager/manager",
-    "pages/mine/mine"
+    "pages/mine/mine",
+    "pages/manager-modify-device/manager-modify-device"
   ],
   "window":{
     "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#28004d",
     "navigationBarTitleText": "大地物联",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle":"white"
   },
   "tabBar": {
     "selectedColor": "#44da56",
