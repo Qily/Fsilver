@@ -55,19 +55,44 @@ Page({
     } catch (e){
 
     };
-    this.getSenesorData(this.data.sensors);
-    // console.log(this.data.sensorDatas)
     
+    // console.log(this.data.sensors);
   },
-  testOnet: function () {
+  onReady:function(){
+    this.getSenesorData(this.data.sensors, wx.getStorageSync('device-key'));
+    
+    var that = this;
+    setInterval(function () {
+      if (that.data.sensors) {
+        that.getSenesorData(that.data.sensors, wx.getStorageSync('device-key'));
+      }
+    }, 5000);
+  },
+  getDatapoint: function (i, j, deviceId, datastreamId, num) {
+    var that = this;
+    // var deviceId = 17700678;
+    var uri = encodeURIComponent("devices/"+deviceId + "/datapoints");
+    // var datastreamId = "humidity_data_flow";
+    // var num = 1;
+    var param = encodeURIComponent("&datastream_id="+ datastreamId + "&limit=" + num)
     wx.request({
-      url: my_config.host + '/weapp/onet',
+      url: my_config.host + '/weapp/onet?method=GET&uri='+uri+'&param='+param,
       method: 'GET',
       header: {
         'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
-        console.log(res.data)
+        // console.log(JSON.parse(res.data._data.split('(')[1].split(')')[0]).data.datastreams[0].datapoints[0].value);
+        var sensorValue = 0;
+        if (JSON.parse(res.data._data.split('(')[1].split(')')[0]).data.datastreams[0] != null){
+          sensorValue = JSON.parse(res.data._data.split('(')[1].split(')')[0]).data.datastreams[0].datapoints[0].value;
+          console.log(sensorValue);
+        }
+        var sensorKey = 'sensorDatas[' + i + '][' + j + ']';
+        that.setData({
+          [sensorKey]: sensorValue,
+        });
+        console.log(that.data.senosrDatas);
       },
       fail: function (err) {
         console.log("get Onet data error:", err);
@@ -75,17 +100,17 @@ Page({
     })
   },
 
-  getSenesorData: function (sensorFlows){
+  getSenesorData: function (sensorFlows, devices){
+    var count = 0;
     var sds = new Array();
     for(var i in sensorFlows){
       sds[i] = new Array();
       for(var si in sensorFlows[i]){
-        sds[i][si] = Math.round(Math.random() * 10);
+        // sds[i][si] = Math.round(Math.random() * 10);
+        this.getDatapoint(i, si, devices[count].odid, sensorFlows[i][si], 1)
+        count++;
       }
     }
-    this.setData({
-      sensorDatas: sds,
-    })
   },
 
 
@@ -128,6 +153,5 @@ Page({
     });
     console.log(sensorFlows);
   }
-
 })
 

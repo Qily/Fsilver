@@ -8,9 +8,12 @@ Page({
     sensors: null,
     gnames: null,
     deviceSelected: true,
-    groupSelected: false
+    groupSelected: false,
+    groups: null,
   },
   onLoad: function () {
+    var that = this;
+    
     wx.showLoading({
       title: '加载中',
     });
@@ -24,7 +27,6 @@ Page({
         wx.hideLoading();
       } else {
         // console.log("1");
-        var that = this;
         const requestTask = wx.request({
           url: my_config.host + '/weapp/tes?id=6', //仅为示例，并非真实的接口地址
           method: 'GET',
@@ -53,7 +55,23 @@ Page({
       }
     } catch (e) {
 
-    }
+    };
+    var gs = wx.request({
+      url: my_config.host + "/weapp/groups?id=6",
+      method: 'GET',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        that.setData({
+          groups: res.data.groups,
+        });
+      },
+      fail: function (err) {
+        console.log("+++++++++++manager.js-68+++++++++++++++++++");
+        console.log(err);
+      }
+    })
   },
   getDeviceName: function (devices) {
     var dns = new Array();
