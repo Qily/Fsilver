@@ -1,7 +1,7 @@
 <scroll-view scroll-y class="root">
   <view wx:for="{{deviceNames}}">
     <view class="line line-control device">
-      <view>
+      <view bindtap="testOnet">
         <image class="device-img" src="../../images/icon/monitor_device.png" style='width:24px;height:24px'></image>
         <text class="device-name">{{deviceNames[index]}}</text>
         <text class="device-gname">{{gnames[index]}}</text>

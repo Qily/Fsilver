@@ -7,7 +7,9 @@ const router = require('koa-router')({
 })
 
 //路由测试
-router.get('/tes', controllers.sqloper.username);
+router.get('/tes', controllers.sqloper.getDevices);
+
+router.get("/groups", controllers.sqloper.getGroups);
 
 //云平台交互测试
 router.get('/onet', controllers.onet.onetTest);

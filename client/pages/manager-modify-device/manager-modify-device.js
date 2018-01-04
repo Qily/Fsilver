@@ -1,4 +1,5 @@
 // pages/manager-modify-device/manager-modify-device.js
+const my_config = require("../../commons/config.js");
 Page({
 
   /**
@@ -6,6 +7,7 @@ Page({
    */
   data: {
     deviceName:'',
+    groups: null,
   },
 
   /**
@@ -18,6 +20,7 @@ Page({
 
     var devices = wx.getStorageSync('device-key');
     // console.log(devices);
+    
 
   },
 

@@ -6,7 +6,7 @@
   margin: 8px;
   padding: 4px;
 }
-.device-name{
+.device-name, .group-name{
   background-color:rgba(40, 240, 40, 0.2);
   opacity: 60%;
   margin-left: 8px;
@@ -16,11 +16,15 @@
   padding: 8px;
   border-radius: 5px;
 }
-.device-name:hover{
+.device-name:hover, .group-name:hover{
   background-color:rgba(40, 180, 40, 0.5);
 }
 
 .device-name text{
+  font-size: 18px;
+  color: #232323;
+}
+.group-name text{
   font-size: 18px;
   color: #232323;
 }

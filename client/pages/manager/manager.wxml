@@ -17,6 +17,13 @@
     </view>
   </view>
   <view class="{{groupSelected?'show':'hidden'}}">
+    <view wx:for="{{groups}}">
+      <view>
+        <view class="group-name" catchlongpress="deleteGroup">
+          <text>{{groups[index].name}}</text>
+        </view>
+      </view>
+    </view>
     <view class="group-add">
       <button type="primary" bindtap='groupAdd'>添加组别</button>
     </view>
