@@ -1,0 +1,9 @@
+<!--pages/monitor-chart/monitor-chart.wxml-->
+ <view class="charts">
+  <view class="device-name">{{deviceName}}</view>
+  <view wx:for="{{dataflows}}" class="sensor-chart" wx:for-index="id">
+     <!-- <view>{{dataflows[index]}}   -->
+      <canvas canvas-id='{{id}}'></canvas>
+     <!-- </view>  -->
+  </view>
+</view>

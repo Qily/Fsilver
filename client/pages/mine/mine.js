@@ -1,4 +1,6 @@
 // pages/mine/mine.js
+const my_config = require("../../commons/config.js");
+
 Page({
 
   /**
@@ -12,6 +14,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.setNavigationBarTitle({
+      title: '我的账户',
+    });
   
   },
 

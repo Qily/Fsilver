@@ -3,11 +3,13 @@ const my_config = require("../../commons/config.js");
 //获取应用实例
 
 Page({
+  
   data: {
     deviceNames: null,
     sensors: null,
     gnames: null,
     sensorDatas: null,
+    timer0:null,
   },
   onLoad: function () {
     wx.showLoading({
@@ -55,19 +57,34 @@ Page({
     } catch (e){
 
     };
-    
-    // console.log(this.data.sensors);
-  },
-  onReady:function(){
+
     this.getSenesorData(this.data.sensors, wx.getStorageSync('device-key'));
-    
+  },
+
+  onShow:function(){
     var that = this;
-    setInterval(function () {
+    this.data.timer0 = setInterval(function () {
       if (that.data.sensors) {
         that.getSenesorData(that.data.sensors, wx.getStorageSync('device-key'));
       }
     }, 5000);
   },
+
+  onPullDownRefresh:function(){
+    this.getSenesorData(this.data.sensors, wx.getStorageSync('device-key'));
+    wx.showToast({
+      title: '刷新成功',
+      icon: 'success',
+      duration: 1000
+    });
+    wx.stopPullDownRefresh();
+    
+  },
+
+  onHide:function(){
+    clearInterval(this.data.timer0);
+  },
+
   getDatapoint: function (i, j, deviceId, datastreamId, num) {
     var that = this;
     // var deviceId = 17700678;
@@ -135,6 +152,12 @@ Page({
       deviceNames: dns,
       gnames: dgs,
     });
+    try{
+      wx.setStorageSync("deviceNames", dns);
+      wx.setStorageSync("groupNames", dgs);
+    } catch(e){
+      console.log(e);
+    }
   },
 
   getDeviceSensor:function(deviceNames, devices){
@@ -152,6 +175,19 @@ Page({
       sensors: sensorFlows,
     });
     console.log(sensorFlows);
-  }
+  },
+
+  showCharts:function(event){
+    var deviceName = event.currentTarget.dataset.dname;
+    var that = this;
+    wx.navigateTo({
+      url: '../monitor-chart/monitor-chart?name='+deviceName,
+      success: function(res) {
+        console.log(deviceName);
+      },
+      fail: function(res) {},
+      complete: function(res) {},
+    })
+  },
 })
 

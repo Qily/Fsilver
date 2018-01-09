@@ -6,7 +6,8 @@
     "pages/monitor/monitor",
     "pages/manager/manager",
     "pages/mine/mine",
-    "pages/manager-modify-device/manager-modify-device"
+    "pages/manager-modify-device/manager-modify-device",
+    "pages/monitor-chart/monitor-chart"
   ],
   "window":{
     "backgroundTextStyle":"light",

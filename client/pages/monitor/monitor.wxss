@@ -1,6 +1,6 @@
 /**index.wxss**/
 .root{
-   background-color: #efeff4; 
+   background-color: #ddeeee; 
   /* opacity: 0.2; */
   position: absolute; 
   left: 0;
