@@ -9,5 +9,5 @@
   box-sizing: border-box;
 } 
 page{
-  background-color: #dee
+  background-color: #ddeeee
 }
