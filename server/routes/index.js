@@ -11,6 +11,11 @@ router.get('/tes', controllers.sqloper.getDevices);
 
 router.get("/groups", controllers.sqloper.getGroups);
 
+router.get("/products", controllers.sqloper.getProducts);
+
+router.post("/buy_product", controllers.sqloper.buyProduct);
+
+
 //云平台交互测试
 router.get('/onet', controllers.onet.onetTest);
 

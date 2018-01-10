@@ -1,0 +1,2 @@
+<import src="/pages/tabbar/tabbar.wxml"/>  
+<template is="tabbar" data="{{tabbar}}"/>  

@@ -7,7 +7,13 @@
     "pages/manager/manager",
     "pages/mine/mine",
     "pages/manager-modify-device/manager-modify-device",
-    "pages/monitor-chart/monitor-chart"
+    "pages/monitor-chart/monitor-chart",
+    "pages/mine-change-pass/mine-change-pass",
+    "pages/tabbar/tabbar",
+    "pages/shop/goods/goods",
+    "pages/shop/cart/cart",
+    "pages/shop/myshop/myshop",
+    "pages/shop/goodsdetail/goodsdetail"
   ],
   "window":{
     "backgroundTextStyle":"light",

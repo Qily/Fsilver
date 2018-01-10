@@ -1,0 +1,7 @@
+<!--pages/mine-change-pass/mine-change-pass.wxml-->
+<view id="change-pass-view">
+  <view class="input-inline">原始密码<input></input></view>
+  <view class="input-inline">修改密码<input></input></view>
+  <view class="input-inline">确认密码<input></input></view>
+  <button class="btn-ok" type='primary' bindtap='modifyPass'>确认修改</button>
+</view>
