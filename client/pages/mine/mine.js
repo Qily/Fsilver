@@ -17,55 +17,48 @@ Page({
     wx.setNavigationBarTitle({
       title: '我的账户',
     });
-  
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
+  shiftCount:function(){
+    wx.showModal({
+      title: '切换账户',
+      content: '确定切换当前账户？',
+      success: function(res){
+        if(res.confirm){
+          //点击确认
+          //清除当前缓存信息
+          //TODO:
+          
+          //跳转到登录页面
+          wx.navigateTo({
+            url: '../index/index',
+          })
+        } else if(res.cancel){
+          //do nothing
+        }
+      }
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
+  changePass:function(){
+    wx.navigateTo({
+      url: '../mine-change-pass/mine-change-pass',
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
+  myMsg:function(){
+
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
+  shop:function(){
+    wx.navigateTo({
+      url: '../shop/goods/goods',
+      success: function (res) { },
+      fail: function (res) { },
+      complete: function (res) { },
+    });
   }
 })

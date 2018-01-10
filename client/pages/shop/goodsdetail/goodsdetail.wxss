@@ -1,0 +1,76 @@
+.product{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.product image{
+  margin: 20px;
+}
+
+.product-title{
+  margin-left: 20px; 
+  color: #1234DB;
+  font-size: 18pt;
+}
+
+.product-desc{
+  margin:20px;
+  font-size: 14pt;
+}
+
+.product-price{
+  background-color: #ef2321;
+  margin: 20px;
+  text-align: center;
+  padding:15px;
+}
+
+.product-price text{
+  font-size: 18pt;
+  color: #ffffff;
+}
+
+ .buy-count{
+  display: flex;
+  justify-content: center;
+} 
+
+ .buy-count .count{
+  display: flex;
+  justify-content: flex-start;
+  margin-left:20px;
+  margin-right: 20px;
+} 
+
+
+.buy-count input{
+  width: 60px;
+  background-color: #ffffff; 
+  height: 40px;
+  text-align: center;
+  margin: 4px;
+}
+
+
+.buy-count button{
+  height:40px;
+  width: 40px; 
+  margin-top:4px;
+  text-align: center;
+  background-color: #eeeeee;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.buy-count button text{
+  font-size: 18pt;
+}
+
+.buy-ok{
+  margin: 40px;
+}
+
+.stock{
+  margin: 8px;
+}

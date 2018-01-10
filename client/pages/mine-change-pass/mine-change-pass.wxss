@@ -1,0 +1,31 @@
+/* pages/mine-change-pass/mine-change-pass.wxss */
+#change-pass-view{
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+.input-inline{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-inline{
+  font-size: 14pt;
+  margin-top: 15px;
+}
+
+.input-inline input{
+  background-color: #fff;
+  margin-left: 20px;
+  padding:8px;
+  border: 1px solid #ddd;
+}
+
+.btn-ok{
+  margin:60px;
+}

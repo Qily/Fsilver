@@ -1,0 +1,31 @@
+<view>
+  <view class="product">
+  <image src="{{info.imgurl}}"></image>
+  </view>
+  
+  <view class="product-title">
+    <text>{{info.title}}</text>
+  </view>
+  <view class="product-desc">
+    <text>{{info.description}}</text>
+  </view>
+
+  <view class="product-price">
+    <text>￥{{info.price}}</text>
+  </view>
+
+  <view class="buy-count">
+    <view class="count">
+      <button bindtap="decProdect"><text>-</text></button>
+      <input value="{{count}}"></input>
+      <button bindtap='addProduct'><text>+</text></button>
+    </view>
+    <text class="stock">库存 {{info.stock}} 件</text>
+  </view>
+
+  <button type='primary' class="buy-ok" bindtap="buyProduct">
+    加入购物车
+  </button>
+  
+
+</view>

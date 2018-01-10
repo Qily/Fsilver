@@ -99,7 +99,6 @@ Page({
         'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
-        // console.log(JSON.parse(res.data._data.split('(')[1].split(')')[0]).data.datastreams[0].datapoints[0].value);
         var sensorValue = 0;
         if (JSON.parse(res.data._data.split('(')[1].split(')')[0]).data.datastreams[0] != null){
           sensorValue = JSON.parse(res.data._data.split('(')[1].split(')')[0]).data.datastreams[0].datapoints[0].value;

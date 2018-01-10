@@ -1,0 +1,26 @@
+/* pages/shop/goods/goods.wxss */
+.single-product{
+  display: flex;
+  flex-direction: row;
+  align-content: cneter;
+  margin-top: 15px;
+  background-color: #eeeeee;
+}
+
+.single-product image{
+  width: 100px;
+  height: 100px;
+  margin-left: 20px;
+  padding: 8px;
+}
+
+.single-product text{
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.single-product .name-price{
+  display: flex;
+  flex-direction: column;
+  align-content: cneter;
+}
