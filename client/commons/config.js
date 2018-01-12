@@ -1,4 +1,4 @@
 const MY_CONF={
-  host: "https://tfyly2id.qcloud.la",
+  host:"https://qcachyoe.qcloud.la"
 }
 module.exports = MY_CONF;
