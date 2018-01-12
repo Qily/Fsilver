@@ -3,8 +3,8 @@
 	"server": "./server",
 	"miniprogramRoot": "./client",
 	"qcloudRoot": "./server",
-	"appid": "wx9d1efcd90caa2be5",
-	"projectname": "Fsilver",
+	"appid": "wxee980058bd5c5d94",
+	"projectname": "001",
 	"setting": {
 		"urlCheck": true,
 		"es6": true,
