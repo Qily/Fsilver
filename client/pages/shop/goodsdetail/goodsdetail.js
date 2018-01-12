@@ -1,5 +1,6 @@
 // pages/shop/goodsdetail/goodsdetail.js
 const my_config = require("../../../commons/config.js");
+const Util = require("../../../utils/util.js")
 
 Page({
 
@@ -73,7 +74,7 @@ Page({
     let that = this;
     wx:wx.request({
       url: my_config.host+"/weapp/buy_product",
-      data: {userId: 6, productId: that.data.info.id, productCount: that.data.count},
+      data: Util.json2Form({userId: 6, productId: that.data.info.id, productCount: that.data.count}),
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
       },

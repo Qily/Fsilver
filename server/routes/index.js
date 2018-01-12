@@ -15,6 +15,8 @@ router.get("/products", controllers.sqloper.getProducts);
 
 router.post("/buy_product", controllers.sqloper.buyProduct);
 
+router.get("/cart_info", controllers.sqloper.cartInfo);
+
 
 //云平台交互测试
 router.get('/onet', controllers.onet.onetTest);

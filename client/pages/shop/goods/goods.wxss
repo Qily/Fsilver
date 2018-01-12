@@ -4,7 +4,7 @@
   flex-direction: row;
   align-content: cneter;
   margin-top: 15px;
-  background-color: #eeeeee;
+  background-color: #ffffff;
 }
 
 .single-product image{

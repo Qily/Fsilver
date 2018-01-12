@@ -22,7 +22,7 @@
     "navigationBarTextStyle":"white"
   },
   "tabBar": {
-    "selectedColor": "#44da56",
+    "selectedColor": "#0e932e",
     "list": [
       {
         "selectedIconPath":"images/icon/home_1.png",

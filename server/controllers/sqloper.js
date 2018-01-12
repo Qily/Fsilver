@@ -29,26 +29,36 @@ let getGroupByUserId = async(ctx, next)=>{
 };
 
 let getProducts = async (ctx, next) => {
-  console.log("sqlOper::getGroupByUserId");
+  console.log("sqlOper::getProducts");
   let queryStr = "SELECT t1.id, t1.title, t1.description, t1.content, t1.imgurl, t2.price, t2.stock, t2.original from met_product t1 LEFT JOIN met_shopv2_product t2 ON t1.id = t2.pid";
   var rows = await p.query(queryStr);
   ctx.body = { "products": rows };
 };
 
 let buyProduct = async (ctx, next) => {
-  console.log("sqlOper::getGroupByUserId");
-  let userId = ctx.request.query.userId;
-  let productId = ctx.request.query.productId;
-  let productCount = ctx.request.query.productCount;
+  console.log("sqlOper::buyProduct");
+  let userId = ctx.request.body.userId;
+  let productId = ctx.request.body.productId;
+  let productCount = ctx.request.body.productCount;
   // let queryStr = "SELECT t1.id, t1.title, t1.description, t1.content, t1.imgurl, t2.price, t2.stock, t2.original from met_product t1 LEFT JOIN met_shopv2_product t2 ON t1.id = t2.pid";
   // var rows = await p.query(queryStr);
   // ctx.body = { "products": rows };
   console.log(userId);
 };
 
+let cartInfo = async (ctx, next)=>{
+  console.log("sqlOper::cartInfo");
+  let userId = ctx.request.query.userId;
+  let queryStr = "SELECT t1.pid, t1.amount, t2.title, t2.imgurl, t3.price, t3.user_discount FROM met_shopv2_cart t1 LEFT JOIN met_product t2 ON t1.pid = t2.id LEFT JOIN met_shopv2_product t3 ON t1.pid = t3.pid WHERE t1.uid = " + userId;
+  var rows = await p.query(queryStr);
+  console.log(rows);  
+  ctx.body = { "cartInfo": rows };
+}
+
 module.exports = {
   getDevices: getDeviceByUserId,
   getGroups: getGroupByUserId,
   getProducts: getProducts,
   buyProduct: buyProduct,
+  cartInfo: cartInfo,
 };

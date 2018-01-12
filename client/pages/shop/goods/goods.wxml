@@ -3,7 +3,11 @@
 <view>
   <view wx:for="{{products}}" wx:key="{{index}}">
     <view class="single-product" bindtap="detailProduct" data-info='{{item}}'>
-      <image src="{{item.imgurl}}"></image><view class="name-price"><text>{{item.title}}</text><text>￥{{item.price}}</text></view>
+      <image src="{{item.imgurl}}"></image>
+      <view class="name-price">
+        <text>{{item.title}}</text>
+        <text>￥{{item.price}}</text>
+      </view>
     </view>
   </view>
 </view>

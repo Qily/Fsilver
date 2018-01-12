@@ -1,2 +1,21 @@
 <import src="/pages/tabbar/tabbar.wxml"/>  
-<template is="tabbar" data="{{tabbar}}"/>  
+<template is="tabbar" data="{{tabbar}}"/>
+<view>
+  <checkbox-group class="check-group" bindchange="checkChange">
+    <view wx:for="{{cartInfo}}" wx:key="{{index}}">
+      <view class="single-product">
+        <checkbox value="{{item.total}}" checked="{{item.checked}}"/>
+        <image src="{{item.imgurl}}"></image>
+        <view class="name-price">
+          <text>{{item.title}}</text>
+          <text class="price-detail">￥{{item.price}} * {{item.amount}}(数量) * {{item.user_discount}}(折扣)</text>
+          <text>￥{{item.total}}</text>
+        </view>
+      </view>
+    </view>
+  </checkbox-group>
+
+  <view class="needpay" wx:if="{{cartInfo}}">
+    <text>￥{{needpay}}</text>
+  </view>
+</view>

@@ -1,1 +1,23 @@
-/* pages/shop/myshop/myshop.wxss */
+.user-info{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.my-count .oneline{
+  background-color: #ffffff;
+  font-size: 14pt;
+  margin-top: 8px;
+}
+ .my-count .oneline view{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+} 
+
+.my-count image{
+  width: 24px;
+  height: 24px;
+  margin: 16px;
+}
+

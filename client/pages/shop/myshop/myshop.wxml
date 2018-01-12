@@ -1,2 +1,21 @@
 <import src="/pages/tabbar/tabbar.wxml"/>  
-<template is="tabbar" data="{{tabbar}}"/>  
+<template is="tabbar" data="{{tabbar}}"/> 
+<view>
+  <view  class="my-count">
+    <view class="oneline">
+      <view bindtap='shiftCount'><image src="../../../images/icon/wait_pay.png"></image>待付款</view>
+    </view>
+    <view class="oneline">
+      <view bindtap="changePass"><image src="../../../images/icon/wait_send.png"/>待收货</view>
+    </view>
+    <view class="oneline">
+      <view bindtap="myMsg"><image src="../../../images/icon/like_1.png"/>我的收藏</view>
+    </view>
+    <view class="oneline">
+      <view bindtap='shop'><image src="../../../images/icon/buy_record.png"/>购买记录</view>
+    </view>
+    <view class="oneline">
+      <view bindtap='shop'><image src="../../../images/icon/address.png"/>收货地址</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,54 @@
+/* pages/shop/goods/goods.wxss */
+.single-product{
+  display: flex;
+  flex-direction: row;
+  align-content: cneter;
+  margin-top: 8px;
+  background-color: #ffffff;
+  align-items: center;
+}
+
+.single-product image{
+  width: 60px;
+  height: 60px;
+  margin-left: 8px;
+  padding: 8px;
+}
+
+.single-product text{
+  margin-left: 20px;
+  margin-top: 8px;
+}
+
+.single-product .name-price{
+  display: flex;
+  flex-direction: column;
+  align-content: cneter;
+}
+
+.needpay{
+  background-color: #ef2321;
+  margin: 20px;
+  text-align: center;
+  padding:15px;
+}
+
+.needpay text{
+  font-size: 18pt;
+  color: #ffffff;
+}
+
+.single-product checkbox{
+  padding-left: 15px;
+}
+.name-price{
+  padding: 8px;
+}
+.name-price text{
+  font-size: 13pt;
+}
+
+.name-price .price-detail{
+  font-size: 11pt;
+  color: #888888;
+}
