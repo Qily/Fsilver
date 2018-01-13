@@ -33,7 +33,54 @@ App({
       }
     })
   },
+
+
+
+  editTabBar: function () {
+    var tabbar = this.globalData.tabbar,
+      currentPages = getCurrentPages(),
+      _this = currentPages[currentPages.length - 1],
+      pagePath = _this.__route__;
+    (pagePath.indexOf('/') != 0) && (pagePath = '/' + pagePath);
+    for (var i in tabbar.list) {
+      tabbar.list[i].selected = false;
+      (tabbar.list[i].pagePath == pagePath) && (tabbar.list[i].selected = true);
+    }
+    _this.setData({
+      tabbar: tabbar
+    });
+  },
   globalData: {
-    userInfo: null
-  }
+    userInfo: null,
+    tabbar: {
+      color: "#000000",
+      selectedColor: "#0e932e",
+      backgroundColor: "#ffffff",
+      borderStyle: "white",
+      list: [
+        {
+          pagePath: "/pages/shop/goods/goods",
+          text: "商品",
+          iconPath: "/images/icon/goods_0.png",
+          selectedIconPath: "/images/icon/goods_1.png",
+          selected: true
+        },
+        {
+          pagePath: "/pages/shop/cart/cart",
+          text: "购物车",
+          iconPath: "/images/icon/cart_0.png",
+          selectedIconPath: "/images/icon/cart_1.png",
+          selected: false
+        },
+        {
+          pagePath: "/pages/shop/myshop/myshop",
+          text: "我的",
+          iconPath: "/images/icon/my_shop_0.png",
+          selectedIconPath: "/images/icon/my_shop_1.png",
+          selected: false
+        }
+      ],
+      position: "bottom"
+    }
+  }  
 })

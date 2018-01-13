@@ -2,42 +2,51 @@
   "pages":[
     "pages/index/index",
     "pages/logs/logs",
-    "pages/devices/devices",
-    "pages/groups/groups",
-    "pages/exceptions/exceptions",
-    "pages/user/user"
+    "pages/home/home",
+    "pages/monitor/monitor",
+    "pages/manager/manager",
+    "pages/mine/mine",
+    "pages/manager-modify-device/manager-modify-device",
+    "pages/monitor-chart/monitor-chart",
+    "pages/mine-change-pass/mine-change-pass",
+    "pages/tabbar/tabbar",
+    "pages/shop/goods/goods",
+    "pages/shop/cart/cart",
+    "pages/shop/myshop/myshop",
+    "pages/shop/goodsdetail/goodsdetail"
   ],
   "window":{
     "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle":"black"
+    "navigationBarBackgroundColor": "#28004d",
+    "navigationBarTitleText": "大地物联",
+    "navigationBarTextStyle":"white"
   },
   "tabBar": {
+    "selectedColor": "#0e932e",
     "list": [
       {
-        "selectedIconPath":"images/icon/device_1.png",
-        "iconPath":"images/icon/device_0.png",
-        "pagePath": "pages/devices/devices",
-        "text": "设备"
+        "selectedIconPath":"images/icon/home_1.png",
+        "iconPath":"images/icon/home_0.png",
+        "pagePath": "pages/home/home",
+        "text": "主页"
       },
       {
-        "selectedIconPath": "images/icon/group_1.png",
-        "iconPath": "images/icon/group_0.png",
-        "pagePath": "pages/groups/groups",
-        "text": "组别"
+        "selectedIconPath": "images/icon/monitor_1.png",
+        "iconPath": "images/icon/monitor_0.png",
+        "pagePath": "pages/monitor/monitor",
+        "text":"实时监测"
       },
       {
-        "selectedIconPath": "images/icon/exception_1.png",
-        "iconPath": "images/icon/exception_0.png",
-        "pagePath": "pages/exceptions/exceptions",
-        "text": "异常"
+        "selectedIconPath": "images/icon/manager_1.png",
+        "iconPath": "images/icon/manager_0.png",
+        "pagePath": "pages/manager/manager",
+        "text": "设备管理"
       },
       {
-        "selectedIconPath": "images/icon/user_1.png",
-        "iconPath": "images/icon/user_0.png",
-        "pagePath": "pages/user/user",
-        "text": "用户"
+        "selectedIconPath": "images/icon/mine_1.png",
+        "iconPath": "images/icon/mine_0.png",
+        "pagePath": "pages/mine/mine",
+        "text": "我的"
       }
     ]
   }

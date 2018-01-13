@@ -1,0 +1,6 @@
+/server/node_modules
+/server/package-lock.json
+*.bak
+/project.config.json
+/server/config.js
+/client/commons/config.js

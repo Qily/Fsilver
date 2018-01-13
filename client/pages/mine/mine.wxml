@@ -1,0 +1,20 @@
+<!--pages/mine/mine.wxml-->
+<view>
+    <view class="user-info">
+      <image src="../../images/icon/mine_0.png"></image>test06
+    </view>
+    <view  class="my-count">
+      <view class="oneline">
+        <view bindtap='shiftCount'><image src="../../images/icon/shift.png"></image>切换账户</view>
+      </view>
+      <view class="oneline">
+        <view bindtap="changePass"><image src="../../images/icon/change.png"/>修改密码</view>
+      </view>
+      <view class="oneline">
+        <view bindtap="myMsg"><image src="../../images/icon/msg.png"/>我的消息</view>
+      </view>
+      <view class="oneline">
+        <view bindtap='shop'><image src="../../images/icon/shop.png"/>商城</view>
+      </view>
+    </view>
+</view>

@@ -1,0 +1,51 @@
+/**index.wxss**/
+.root{
+   background-color: #ddeeee; 
+}
+.device{
+  height: 120px;
+  background-color: rgba(40, 240, 40, 0.2);
+  margin: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.single-sensor image, .single-device-sensors image{
+  width: 24px;
+  height: 24px;
+}
+
+.device-gname{
+  color: #888888;
+  font-size: 11pt;
+  margin-left: 16px; 
+  padding-top: 4px;
+}
+.device-name{
+  font-size: 16pt;
+  margin-left: 16px;
+}
+
+.single-device-sensors{
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+}
+
+.single-sensor{
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  margin-left: 20px;
+  margin-top: 15px;
+}
+.single-sensor-title{
+  display: flex;
+  flex-direction: row;
+  /* align-content: flex-start; */
+  align-items: flex-start;
+  margin-left: 20px;
+}
+
+

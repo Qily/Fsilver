@@ -1,0 +1,17 @@
+/* pages/monitor-chart/monitor-chart.wxss */
+/* .charts{
+   text-align: center; 
+}  */
+
+ .device-name{
+  font-size: 16pt;
+  color: #22f;
+  margin-top: 20px;
+  text-align: center; 
+} 
+ canvas{
+  height: 200px;
+  width: 100%;
+  background-color: #eeeeee; 
+  margin-top: 15px;
+} 

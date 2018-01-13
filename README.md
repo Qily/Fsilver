@@ -1,4 +1,4 @@
-#Fsilver
+#Fsilver1
 <h3>Fsilver介绍</h3>
 <p>
     本项目是基于wechat小程序和node.js用于环境监测的应用程序，由于是私人项目，杜绝代码共享。
@@ -52,7 +52,7 @@ P.S. 分支创建第一次提交可能出现错误 The current branch QilyDev ha
 7. 多人开发创建分支：git checkout -b Qily----------当前处于Qily分支，修改一个文件----------git add -A------------git commit -m "commit msg"----------git push --set-upstream origin Qily（第一次提交）
 8. git checkout master-------当前在master分支，可能要求pull一下----------git pull-----------------git merge Qily(合并分支)---------git checkout Qily
 9. 其他项目组成员加入：项目负责人先将其在coding或者github私人项目上将其添加到项目中----------项目组成员在自己的电脑上做3， 7，8步操作
-10. 正常开发时：git pull origin master------------开始工作先从远程master获取代码-----------修改（无bug,程序能正常运行），提交--------git add -A-------------------git commit -m "修改了一个测试功能"------------git push------（此时是提交到了自己所在的分支）-----------合并分支-------（这里可能就不是一般成员要操作的了，可能是向项目负责人申请提交请求）git checkout master--------git merge LiQi-----git checkout QilyDev
+10. 正常开发时：git pull origin master------------开始工作先从远程master获取代码-----------修改（无bug,程序能正常运行），提交--------git add -A-------------------git commit -m "修改了一个测试功能"------------git push------（此时是提交到了自己所在的分支）-----------合并分支-------（这里可能就不是一般成员要操作的了，可能是向项目负责人申请提交请求）git checkout master--------git merge LiQi--git push------------将代码push到远程master----------git checkout QilyDev
 <h5>git说明</h5>
 1.理解git最重要的是理解本地仓库和远程仓库<br>
 2.上面我的一般实践中第10步QilyDev是项目负责人分支，LiQi是普通成员分支<br>

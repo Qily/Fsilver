@@ -8,3 +8,32 @@
   padding: 200rpx 0;
   box-sizing: border-box;
 } 
+page{
+  background-color: #ddeeee
+}
+ .tabbar-box{  
+    display: flex;  
+    flex-direction: row;  
+    justify-content: space-around;  
+    position: fixed;  
+    bottom: 0;  
+    left: 0;  
+    z-index: 999;  
+    width: 100%;  
+    height: 120rpx;  
+    border-top: 1rpx solid gray;   
+}  
+  
+.tabbar-nav{  
+    display: flex;  
+    flex-direction: column;  
+    justify-content: center;  
+    align-items: center;  
+    font-size: 28rpx;  
+    height: 100%;  
+}  
+   
+.tabbar-icon{  
+    width: 61rpx;  
+    height: 61rpx;  
+}  
