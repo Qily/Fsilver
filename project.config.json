@@ -3,7 +3,7 @@
 	"server": "./server",
 	"miniprogramRoot": "./client",
 	"qcloudRoot": "./server",
-	"appid": "wxee980058bd5c5d94",
+	"appid": "wxee980058bd5c5d9",
 	"projectname": "001",
 	"setting": {
 		"urlCheck": true,
