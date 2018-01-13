@@ -56,6 +56,10 @@ Page({
     } catch (e) {
 
     };
+    // let that = this;
+    // this.setData({
+    //   device: null,
+    // })
     var gs = wx.request({
       url: my_config.host + "/weapp/groups?id=6",
       method: 'GET',
@@ -63,6 +67,7 @@ Page({
         'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
+        console.log(res.data.groups);
         that.setData({
           groups: res.data.groups,
         });
