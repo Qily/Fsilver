@@ -3,13 +3,14 @@ const my_config = require("../../commons/config.js");
 //获取应用实例
 
 Page({
-  
   data: {
     deviceNames: null,
     sensors: null,
     gnames: null,
     sensorDatas: null,
     timer0:null,
+    deviceSelected: true,
+    groupSelected: false,
   },
   onLoad: function () {
     wx.showLoading({
@@ -186,6 +187,18 @@ Page({
       },
       fail: function(res) {},
       complete: function(res) {},
+    })
+  },
+  deviceSelected: function (e) {
+    this.setData({
+      groupSelected: false,
+      deviceSelected: true
+    })
+  },
+  groupSelected: function (e) {
+    this.setData({
+      deviceSelected: false,
+      groupSelected: true
     })
   },
 })

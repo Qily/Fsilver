@@ -6,10 +6,11 @@ image{
 }
 
 input{
-  background-color: #eee;
+  background-color: #fff;
   border: 1px solid #ddd;
   height: 40px;
-  border-radius: 8px;
+  border-radius: 5px;
+  padding-left:8px;
 }
 
 .username{
