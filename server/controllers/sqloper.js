@@ -55,10 +55,19 @@ let cartInfo = async (ctx, next)=>{
   ctx.body = { "cartInfo": rows };
 }
 
+let getMetUserinfo = async (ctx, next)=>{
+  let username = ctx.request.query.username;
+  let queryStr = "SELECT id, password FROM met_user WHERE username = " + username;
+  var rows = await p.query(queryStr);
+  console.log("******************"+rows)
+  ctx.body = { "userinfo": rows };
+}
+
 module.exports = {
   getDevices: getDeviceByUserId,
   getGroups: getGroupByUserId,
   getProducts: getProducts,
   buyProduct: buyProduct,
   cartInfo: cartInfo,
+  userinfo: getMetUserinfo,
 };

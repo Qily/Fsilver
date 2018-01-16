@@ -3,11 +3,11 @@
   <image src="../../images/logo.png"></image>
   <view class="section">
     <view class="username">
-      <input  bindinput="bindKeyInput" placeholder="  用户名"/>
+      <input bindinput="bindUsernameInput" placeholder="用户名"/>
     </view>
 
     <view class="password">
-      <input  bindinput="bindKeyInput" placeholder="密码"/>
+      <input bindinput="bindPasswordInput" placeholder="密码"/>
     </view>
     <button type="primary" bindtap="enter">登陆</button>
   </view>
