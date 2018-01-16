@@ -1,4 +1,4 @@
-#Fsilver1
+#Fsilver
 <h3>Fsilver介绍</h3>
 <p>
     本项目是基于wechat小程序和node.js用于环境监测的应用程序，由于是私人项目，杜绝代码共享。
@@ -57,7 +57,7 @@ P.S. 分支创建第一次提交可能出现错误 The current branch QilyDev ha
 1.理解git最重要的是理解本地仓库和远程仓库<br>
 2.上面我的一般实践中第10步QilyDev是项目负责人分支，LiQi是普通成员分支<br>
 3.一般的开发是在分支上进行，只有在程序没有bug,能完成运行的状态下能提交到master中，其他的情况现在分支中完善<br>
-4.开发节奏一般是开始工作前从master pull,完成工作向自己分支push,并提交合并分支请求<br>
+4.开发节奏一般是开始工作前从master pull,完成工作commit后先从master pull再向自己分支push,并提交合并分支请求<br>
 <h5>特别说明</h5>
 本篇纯属个人理解
 <br>
