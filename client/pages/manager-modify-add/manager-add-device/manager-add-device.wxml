@@ -5,25 +5,27 @@
     <text>设备名称</text>
   </view>
   <view class="value-info">
-    <input value='{{deviceName}}'></input>
+    <input value='{{device.dname}}'></input>
   </view>
   <view class="name-info">
     <text>设备位置</text>
   </view>
   <view class="value-info">
-    <input value='{{deviceName}}'></input>
+    <input value='{{device.dloca}}'></input>
   </view>
   <view class="name-info">
     <text>设备组别</text>
   </view>
   <view class="value-info">
-    <picker bindPickerChanger>{{deviceName}}</picker>
+    <picker bindchange='bindPickerChanger' mode="selector" range="{{groups2}}" value="{{ind}}">
+        <text>{{groups2[ind]}}</text>
+    </picker>
   </view>
   <view class="name-info">
     <text>传感器数目</text>
   </view>
-  <view class="value-info">
-    <input value='{{deviceName}}'></input>
+  <view class="disabled-value">
+    <input value='{{sensorCount}}' disabled='false'></input>
   </view>
   <view class="name-info">
     <text>设备描述</text>
@@ -32,7 +34,7 @@
     <textarea value='{{deviceName}}'></textarea>
   </view>
   <view class="save-info">
-    <button type="primary">保存</button>
+    <button type="primary">添加</button>
   </view>
 </scroll-view>
 

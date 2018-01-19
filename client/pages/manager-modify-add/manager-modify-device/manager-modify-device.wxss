@@ -21,3 +21,9 @@ textarea{
 .save-info{
   margin:32px;
 }
+.disabled-value{
+    background-color: #DDD;
+    padding: 8px;
+    padding-left:16px; 
+    font-size: 17pt;
+}
