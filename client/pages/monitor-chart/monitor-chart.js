@@ -21,7 +21,6 @@ Page({
     this.setData({
       deviceName : options.name,
     });
-    // console.log(this.data.deviceName);
     // 1 将设备名称获取就可以获取相应的传感器dataflow
     // 2 根据数据流确定该画什么类型的chart
     // 3 为了实现左滑与右滑改变设备，我们还需要将该设备的前驱后继获取
@@ -78,6 +77,7 @@ Page({
   },
   paintLineChart:function(canvasId, titleName, seriesName, unitName, xData, yData){
     let wWidth;
+    let canvasIdStr = "chart"+canvasId;
     try {
       let res = wx.getSystemInfoSync();
       wWidth = res.screenWidth;
@@ -87,30 +87,29 @@ Page({
     var wxCharts = require('../../utils/wxcharts.js');
     var xData = xData;
     new wxCharts({
-      canvasId: canvasId,
-      background: '#eeeeee',
-      animation: false,
-      legend: false,
-      type: 'line',
-      categories: xData,
-      series: [{
-        name: seriesName,
-        data: yData,
-        format: function (val) {
-          return val.toFixed(0) + unitName;
-        }
-      }],
-      yAxis: {
-        title: titleName,
-        format: function (val) {
-          return val.toFixed(2);
+        canvasId: canvasIdStr,
+        background: '#eeeeee',
+        animation: false,
+        legend: false,
+        type: 'line',
+        categories: xData,
+        series: [{
+            name: seriesName,
+            data: yData,
+            format: function (val) {
+                return val.toFixed(0) + unitName;
+            }
+        }],
+        yAxis: {
+            title: titleName,
+            format: function (val) {
+            return val.toFixed(2);
+            },
+            min: 0
         },
-        min: 0
-      },
-      width: wWidth,
-      height: 200,
-    });
-    console.log(canvasId);
+        width: wWidth,
+        height: 200,
+        });
   },
 
   getDataflows:function(deviceName){
@@ -151,7 +150,6 @@ Page({
         var sensorValue;
         if (JSON.parse(res.data._data.split('(')[1].split(')')[0]).data.datastreams[0] != null) {
           sensorValue = JSON.parse(res.data._data.split('(')[1].split(')')[0]).data.datastreams[0];
-          // console.log(sensorValue);
           for(var i in sensorValue.datapoints){
             dataValue[i] = sensorValue.datapoints[i].value;
             dataTime[i] = sensorValue.datapoints[i].at.slice(5, 19);

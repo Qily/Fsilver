@@ -13,10 +13,6 @@ Page({
   },
   enter:function(){
     this.getMetUserInfo(this.data.username);
-    
-    wx.switchTab({
-      url: '../home/home'
-    })
   },
   bindUsernameInput:function(e){
     this.setData({
@@ -25,28 +21,48 @@ Page({
   },
 
   bindPasswordInput: function (e) {
+    let passMd5 = md5.hex_md5(e.detail.value);
     this.setData({
-      password: e.detail.value
+      password: passMd5
     })
   },
     
   getMetUserInfo:function(username){
-    wx:wx.request({
+    let that = this;
+    wx.request({
       url: my_config.host + "/weapp/userinfo?username=" + username,
       header: {
         'content-type': 'application/x-www-form-urlencoded'
       },
       method: "GET",
       success: function(res) {
-        console.log("+++++++++++++")
-        console.log(res.data.userinfo);
+        if(res.data.userinfo.length == 0){
+          wx.showToast({
+            title: '用户名错误',
+            image: '../../images/icon/error.png',
+            duration: 2000
+          })
+        } else{
+          if (res.data.userinfo[0].password == that.data.password){
+            wx.switchTab({
+              url: '../home/home'
+            });
+            //当用户名和密码正确之后，将用户名和id存入到Storage中作为session
+            let value = res.data.userinfo[0];
+            wx.setStorageSync("userinfo", value);
+          } else{
+            wx.showToast({
+              title: '密码错误',
+              image: '../../images/icon/error.png',
+              duration: 2000
+            })
+          }
+        }
       },
       fail: function(res) {
         console.log(res);
       },
       complete: function(res) {},
     })
-    console.log(md5.hex_md5("123123"));
   },
-  
 })

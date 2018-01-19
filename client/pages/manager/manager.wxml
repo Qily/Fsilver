@@ -5,8 +5,8 @@
     <view class="{{groupSelected?'red':'default'}}" bindtap="groupSelected">组别</view>
   </view>
   <view class="{{deviceSelected?'show':'hidden'}}">
-    <view wx:for="{{deviceNames}}">
-      <view>
+    <view wx:for="{{deviceNames}}" wx:key="index">
+      <view hover="true" hover-class="green_hover">
         <view class="device-name" catchlongpress="deleteDevice" bindtap='deviceDetail' data-dname="{{deviceNames[index]}}">
           <text>{{deviceNames[index]}}</text>
         </view>
@@ -17,8 +17,8 @@
     </view>
   </view>
   <view class="{{groupSelected?'show':'hidden'}}">
-    <view wx:for="{{groups}}">
-      <view>
+    <view wx:for="{{groups}}" wx:key="index">
+      <view hover="true" hover-class="green_hover">
         <view class="group-name" catchlongpress="deleteGroup">
           <text>{{groups[index].name}}</text>
         </view>

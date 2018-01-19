@@ -7,7 +7,7 @@
     </view>
 
     <view class="password">
-      <input bindinput="bindPasswordInput" placeholder="密码"/>
+      <input password="true" bindinput="bindPasswordInput" placeholder="密码"/>
     </view>
     <button type="primary" bindtap="enter">登陆</button>
   </view>
