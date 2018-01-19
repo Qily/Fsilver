@@ -1,6 +1,8 @@
 // pages/manager/manager.js
 
 const my_config = require("../../commons/config.js");
+var inputinfo = "";
+var app = getApp() 
 Page({
   data: {
     devices: null,
@@ -10,9 +12,12 @@ Page({
     deviceSelected: true,
     groupSelected: false,
     groups: null,
+    animationData: "",
+    showModalStatus: false 
   },
   onLoad: function () {
     var that = this;
+    let userId = wx.getStorageSync("userinfo").id;
     
     wx.showLoading({
       title: '加载中',
@@ -27,7 +32,7 @@ Page({
         wx.hideLoading();
       } else {
         const requestTask = wx.request({
-          url: my_config.host + '/weapp/devices?id=6', //仅为示例，并非真实的接口地址
+          url: my_config.host + '/weapp/devices?id=' + userId, //仅为示例，并非真实的接口地址
           method: 'GET',
           header: {
             'content-type': 'application/x-www-form-urlencoded'
@@ -56,7 +61,7 @@ Page({
 
     };
 
-    let userId = wx.getStorageSync("userinfo").id;
+    
     var gs = wx.request({
         url: my_config.host + "/weapp/groups?id=" + userId,
         method: 'GET',
@@ -64,14 +69,17 @@ Page({
         'content-type': 'application/x-www-form-urlencoded'
         },
         success: function (res) {
-        console.log(res.data.groups);
-        that.setData({
-            groups: res.data.groups,
-        });
+            let groups = wx.getStorageSync("groups");
+            if(!groups){
+                groups = wx.setStorageSync("groups", res.data.groups)
+            }
+            that.setData({
+                groups: res.data.groups,
+            });
         },
         fail: function (err) {
-        console.log("+++++++++++manager.js-68+++++++++++++++++++");
-        console.log(err);
+            console.log("+++++++++++manager.js-68+++++++++++++++++++");
+            console.log(err);
         }
     })
   },
@@ -120,7 +128,7 @@ Page({
   deviceDetail:function(event){
     var name = event.currentTarget.dataset.dname;
     wx.navigateTo({
-      url: '../manager-modify-device/manager-modify-device?name='+name,
+      url: '../manager-modify-add/manager-modify-device/manager-modify-device?name='+name,
     })
   },
 
@@ -137,11 +145,76 @@ Page({
     })
   },
   deviceAdd:function(){
-    wx.scanCode({
-      onlyFromCamera: true,
-      success: (res) => {
-        console.log(res)
+    // wx.scanCode({
+    //   onlyFromCamera: true,
+    //   success: (res) => {
+    //     console.log(res)
+    //   }
+    // })
+      wx.navigateTo({
+          url: '../manager-modify-add/manager-add-device/manager-add-device',
+      })
+  },
+
+
+
+  showModal: function () {
+      // 显示遮罩层  
+      var animation = wx.createAnimation({
+          duration: 200,
+          timingFunction: "linear",
+          delay: 0
+      })
+      this.animation = animation
+      animation.translateY(300).step()
+      this.setData({
+          animationData: animation.export(),
+          showModalStatus: true
+      })
+      setTimeout(function () {
+          animation.translateY(0).step()
+          this.setData({
+              animationData: animation.export()
+          })
+      }.bind(this), 200)
+  },
+  changeGroup: function () {
+      if (this.data.showModalStatus) {
+          this.hideModal();
+      } else {
+          this.showModal();
       }
-    })
-  }
+  },
+  hideModal: function () {
+      // 隐藏遮罩层  
+      var animation = wx.createAnimation({
+          duration: 200,
+          timingFunction: "linear",
+          delay: 0
+      })
+      this.animation = animation
+      animation.translateY(300).step()
+      this.setData({
+          animationData: animation.export(),
+      })
+      setTimeout(function () {
+          animation.translateY(0).step()
+          this.setData({
+              animationData: animation.export(),
+              showModalStatus: false
+          })
+      }.bind(this), 200)
+  },
+  click_cancel: function () {
+      console.log("点击取消");
+      this.hideModal();
+  },
+  click_ok: function () {
+      console.log("点击了确定===，输入的信息为为==", inputinfo);
+      this.hideModal();
+  },
+  input_content: function (e) {
+      console.log(e);
+      inputinfo = e.detail.value;
+  } 
 })
