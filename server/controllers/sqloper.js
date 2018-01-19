@@ -1,7 +1,7 @@
 const wrapper = require('co-mysql');
 const mysql = require('mysql');
 const options = {
-  host: 'ttggcc.get.vip',
+  host: 'ttggcc.dot.vip',
   port: 3306,
   database: 'ttggcc',
   user: 'ttggcc',
@@ -57,11 +57,31 @@ let cartInfo = async (ctx, next)=>{
 
 let getMetUserinfo = async (ctx, next)=>{
   let username = ctx.request.query.username;
-  let queryStr = "SELECT id, password FROM met_user WHERE username = " + username;
+  // 这里如果是字符串注意在连边加上单引号
+  let queryStr = "SELECT id, password FROM met_user WHERE username = '" + username + "'";
   var rows = await p.query(queryStr);
-  console.log("******************"+rows)
   ctx.body = { "userinfo": rows };
 }
+
+let getScenes = async (ctx, next)=>{
+    console.log("******************************************sqlOper::GetScenes");    
+    let userId = ctx.request.query.userId;
+    let queryStr = "SELECT t1.id, t1.name, t1.img_path, t2.device_id, t2.rela_width, t2.rela_height FROM met_userdata_scene t1 LEFT JOIN met_userdata_scene_device t2 ON t1.id = t2.scene_id WHERE t1.create_man_id = " + userId + " ORDER BY t1.img_path ASC";
+    var rows = await p.query(queryStr);
+    ctx.body = { "scenes": rows };
+}
+
+let changePass = async (ctx, next) => {
+    let userId = ctx.request.body.userId;
+    let pwd = ctx.request.body.pwd;
+    // let queryStr = "SELECT t1.id, t1.title, t1.description, t1.content, t1.imgurl, t2.price, t2.stock, t2.original from met_product t1 LEFT JOIN met_shopv2_product t2 ON t1.id = t2.pid";
+    // var rows = await p.query(queryStr);
+    // ctx.body = { "products": rows };
+    let sqlStr = "UPDATE met_user SET password='" + pwd + "' WHERE id="+userId;
+    var res = await p.query(sqlStr);
+    ctx.body = {"changePass": res};
+};
+
 
 module.exports = {
   getDevices: getDeviceByUserId,
@@ -70,4 +90,6 @@ module.exports = {
   buyProduct: buyProduct,
   cartInfo: cartInfo,
   userinfo: getMetUserinfo,
+  scenes: getScenes,
+  changePass: changePass,
 };

@@ -82,4 +82,8 @@
   display:none;
 }
 
+.scenes .scene_image{
+     width: 100%; 
+}
+
 

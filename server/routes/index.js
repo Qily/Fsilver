@@ -7,7 +7,7 @@ const router = require('koa-router')({
 })
 
 //路由测试
-router.get('/tes', controllers.sqloper.getDevices);
+router.get('/devices', controllers.sqloper.getDevices);
 
 router.get("/groups", controllers.sqloper.getGroups);
 
@@ -18,6 +18,10 @@ router.post("/buy_product", controllers.sqloper.buyProduct);
 router.get("/cart_info", controllers.sqloper.cartInfo);
 
 router.get("/userinfo", controllers.sqloper.userinfo);
+
+router.get("/scenes", controllers.sqloper.scenes);
+
+router.post("/change_pwd", controllers.sqloper.changePass);
 
 
 //云平台交互测试

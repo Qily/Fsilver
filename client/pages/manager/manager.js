@@ -26,9 +26,8 @@ Page({
         this.getDeviceName(wx.getStorageSync("device-key"));
         wx.hideLoading();
       } else {
-        // console.log("1");
         const requestTask = wx.request({
-          url: my_config.host + '/weapp/tes?id=6', //仅为示例，并非真实的接口地址
+          url: my_config.host + '/weapp/devices?id=6', //仅为示例，并非真实的接口地址
           method: 'GET',
           header: {
             'content-type': 'application/x-www-form-urlencoded'
@@ -56,26 +55,24 @@ Page({
     } catch (e) {
 
     };
-    // let that = this;
-    // this.setData({
-    //   device: null,
-    // })
+
+    let userId = wx.getStorageSync("userinfo").id;
     var gs = wx.request({
-      url: my_config.host + "/weapp/groups?id=6",
-      method: 'GET',
-      header: {
+        url: my_config.host + "/weapp/groups?id=" + userId,
+        method: 'GET',
+        header: {
         'content-type': 'application/x-www-form-urlencoded'
-      },
-      success: function (res) {
+        },
+        success: function (res) {
         console.log(res.data.groups);
         that.setData({
-          groups: res.data.groups,
+            groups: res.data.groups,
         });
-      },
-      fail: function (err) {
+        },
+        fail: function (err) {
         console.log("+++++++++++manager.js-68+++++++++++++++++++");
         console.log(err);
-      }
+        }
     })
   },
   getDeviceName: function (devices) {
