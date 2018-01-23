@@ -82,6 +82,24 @@ let changePass = async (ctx, next) => {
     ctx.body = {"changePass": res};
 };
 
+let addGroup = async (ctx, next) => {
+    let userId = ctx.request.body.userId;
+    let groupName = ctx.request.body.name;
+
+    let sqlStr = "insert into met_userdata_group(name, create_man_id, status) values ('"+ groupName +"', " + userId + ", 1)";
+    var res = await p.query(sqlStr);
+    ctx.body = {"addGroupRes": res};
+}
+
+let deleteGroup = async (ctx, next) => {
+    
+    let groupId = ctx.request.body.groupId;
+    // 这里还要做删除设备传感器等操作的处理
+    let sqlStr = "delete from met_userdata_group where id =" + groupId;
+    var res = await p.query(sqlStr);
+    ctx.body = { "deleteGroupRes": res };
+}
+
 
 module.exports = {
   getDevices: getDeviceByUserId,
@@ -92,4 +110,6 @@ module.exports = {
   userinfo: getMetUserinfo,
   scenes: getScenes,
   changePass: changePass,
+  addGroup: addGroup,
+  deleteGroup: deleteGroup,
 };

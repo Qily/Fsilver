@@ -121,17 +121,29 @@
 }
 .input-style{
   width: 96%;
-  margin-left: 2%;
+   margin-left: 2%; 
   height: 30px;
-  text-align: center;
+   text-align: center; 
 }
 
 .input-view{
   height: 30px;
   width: 70%;
-  margin-left: 15%;
+   margin-left: 15%; 
   border: 1px #A5A5A5 solid;
   border-radius: 5px;
   margin-bottom: 20px;
   margin-top: 20px;
 }
+
+.oneline image{
+    width:32px;
+    height:32px;
+    margin-right: 8px;
+}
+
+.oneline view{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+} 
