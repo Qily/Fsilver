@@ -1,7 +1,9 @@
 // pages/manager/manager.js
 
 const my_config = require("../../commons/config.js");
-var inputinfo = "";
+const util = require("../../utils/util.js");
+const POST_REQ = require("../../request/postReq.js");
+const GET_REQ = require("../../request/getReq.js");
 var app = getApp() 
 Page({
   data: {
@@ -12,6 +14,8 @@ Page({
     deviceSelected: true,
     groupSelected: false,
     groups: null,
+    inputinfo: "",
+    addGroup: 0,
     animationData: "",
     showModalStatus: false 
   },
@@ -61,28 +65,34 @@ Page({
 
     };
 
-    
-    var gs = wx.request({
-        url: my_config.host + "/weapp/groups?id=" + userId,
-        method: 'GET',
-        header: {
-        'content-type': 'application/x-www-form-urlencoded'
-        },
-        success: function (res) {
-            let groups = wx.getStorageSync("groups");
-            if(!groups){
-                groups = wx.setStorageSync("groups", res.data.groups)
-            }
-            that.setData({
-                groups: res.data.groups,
-            });
-        },
-        fail: function (err) {
-            console.log("+++++++++++manager.js-68+++++++++++++++++++");
-            console.log(err);
-        }
-    })
+    this.groupInit();
   },
+
+    groupInit: function(){
+        var that = this;
+
+        let params = new Object();
+        params.id = wx.getStorageSync("userinfo").id;
+
+        GET_REQ.GET({
+            uri: "/groups",
+            params: params,
+            success:function(res){
+                let groups = wx.getStorageSync("groups");
+                if (!groups) {
+                    groups = wx.setStorageSync("groups", res.data.groups)
+                }
+                that.setData({
+                    groups: res.data.groups,
+                });
+            },
+            fail: function(err){
+                console.log("+++++++++++manager.js-68+++++++++++++++++++");
+                console.log(err);
+            }
+        })
+    },
+
   getDeviceName: function (devices) {
     var dns = new Array();
     var dls = new Array();
@@ -157,64 +167,170 @@ Page({
   },
 
 
+  groupDetail:function(event){
+    var group = event.currentTarget.dataset.group;
+    console.log("******************************")
+    console.log(group);
 
-  showModal: function () {
-      // 显示遮罩层  
-      var animation = wx.createAnimation({
-          duration: 200,
-          timingFunction: "linear",
-          delay: 0
-      })
-      this.animation = animation
-      animation.translateY(300).step()
-      this.setData({
-          animationData: animation.export(),
-          showModalStatus: true
-      })
-      setTimeout(function () {
-          animation.translateY(0).step()
-          this.setData({
-              animationData: animation.export()
-          })
-      }.bind(this), 200)
+    this.data.inputinfo = group.name;
+
+    if (this.data.showModalStatus) {
+        this.hideModal();
+    } else {
+        this.showModal();
+    }
   },
-  changeGroup: function () {
-      if (this.data.showModalStatus) {
-          this.hideModal();
-      } else {
-          this.showModal();
-      }
-  },
-  hideModal: function () {
-      // 隐藏遮罩层  
-      var animation = wx.createAnimation({
-          duration: 200,
-          timingFunction: "linear",
-          delay: 0
-      })
-      this.animation = animation
-      animation.translateY(300).step()
-      this.setData({
-          animationData: animation.export(),
-      })
-      setTimeout(function () {
-          animation.translateY(0).step()
-          this.setData({
-              animationData: animation.export(),
-              showModalStatus: false
-          })
-      }.bind(this), 200)
-  },
-  click_cancel: function () {
-      console.log("点击取消");
-      this.hideModal();
-  },
-  click_ok: function () {
-      console.log("点击了确定===，输入的信息为为==", inputinfo);
-      this.hideModal();
-  },
-  input_content: function (e) {
-      console.log(e);
-      inputinfo = e.detail.value;
-  } 
+
+    addGroup: function () {
+        this.data.inputinfo = "";
+        this.data.addGroup = 1;
+        this.showModal();
+    },
+
+    addGroupReq:function(inputinfo){
+        let that = this;
+
+        let params = new Object();
+        params.userId = wx.getStorageSync("userinfo").id;
+        params.name = inputinfo;
+
+        POST_REQ.POST({
+            uri: "/add_group",
+            params: params,
+            success: function(res){
+                //判断写数据库是否成功，成功则更新缓存
+                console.log("-----------------------")
+                console.log(res.data.addGroupRes);
+                if (res.data.addGroupRes.affectedRows == 1) {
+                    that.groupInit();
+                } else {
+                    wx.showToast({
+                        title: '添加失败',
+                        image: '../../images/icon/error.png',
+                        duration: 200,
+                        mask: true,
+                    })
+                }
+            },
+            fail: function(err){
+                console.log(err);
+            }
+        })
+    },
+
+    updateGroupReq: function (inputinfo) {
+
+    },
+
+    deleteGroup: function (event) {
+        let that = this;
+        let group = event.currentTarget.dataset.group;
+        wx.showModal({
+            content: "是否删除？",
+            success: function (res) {
+                if (res.confirm) {
+                    // console.log("yes");
+                    that.deleteGroupReq(group);
+                } else if (res.cancel) {
+                    console.log("no");
+                }
+            }
+        })
+    },
+
+    deleteGroupReq: function(group){
+        let groupId = group.id;
+        let that = this;
+        wx.request({
+            url: my_config.host + "/weapp/delete_group",
+            data: util.json2Form({ groupId: groupId }),
+            method: "POST",
+            header: {
+                'content-type': 'application/x-www-form-urlencoded'
+            },
+            success: function (res) {
+                //判断写数据库是否成功，成功则更新缓存
+                console.log("-----------------------")
+                console.log(res.data.deleteGroupRes);
+                if (res.data.deleteGroupRes.affectedRows == 1) {
+                    that.groupInit();
+                } else {
+                    wx.showToast({
+                        title: '添加失败',
+                        image: '../../images/icon/error.png',
+                        duration: 200,
+                        mask: true,
+                    })
+                }
+            },
+            fail: function (err) {
+                console.log(err);
+            }
+        })
+    },
+
+    // *********************************************************************
+    // 自定义dialog相关
+    showModal: function () {
+        // 显示遮罩层  
+        var animation = wx.createAnimation({
+            duration: 200,
+            timingFunction: "linear",
+            delay: 0
+        })
+        this.animation = animation
+        animation.translateY(300).step()
+        this.setData({
+            animationData: animation.export(),
+            showModalStatus: true
+        })
+        setTimeout(function () {
+            animation.translateY(0).step()
+            this.setData({
+                animationData: animation.export()
+            })
+        }.bind(this), 200)
+    },
+    
+    hideModal: function () {
+        // 隐藏遮罩层  
+        var animation = wx.createAnimation({
+            duration: 200,
+            timingFunction: "linear",
+            delay: 0
+        })
+        this.animation = animation
+        animation.translateY(300).step()
+        this.setData({
+            animationData: animation.export(),
+        })
+        setTimeout(function () {
+            animation.translateY(0).step()
+            this.setData({
+                animationData: animation.export(),
+                showModalStatus: false
+            })
+        }.bind(this), 200)
+    },
+    click_cancel: function () {
+        console.log("点击取消");
+        this.hideModal();
+    },
+    click_ok: function () {
+        console.log("点击了确定===，输入的信息为为==", this.data.inputinfo);
+        if(this.data.addGroup == 1){
+            this.addGroupReq(this.data.inputinfo);
+            this.data.addGroup = 0;
+            this.data.inputinfo = "";
+        } else{
+            this.updateGroupReq(this.data.inputinfo);
+            this.data.inputinfo = "";
+        }
+        this.hideModal();
+    },
+    input_content: function (e) {
+        console.log(e);
+        this.data.inputinfo = e.detail.value;
+    }
+//   ***************************************************************
 })

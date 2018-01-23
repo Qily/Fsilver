@@ -23,6 +23,10 @@ router.get("/scenes", controllers.sqloper.scenes);
 
 router.post("/change_pwd", controllers.sqloper.changePass);
 
+router.post("/add_group", controllers.sqloper.addGroup);
+
+router.post("/delete_group", controllers.sqloper.deleteGroup);
+
 
 //云平台交互测试
 router.get('/onet', controllers.onet.onetTest);

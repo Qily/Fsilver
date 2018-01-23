@@ -7,8 +7,8 @@
   <view class="{{deviceSelected?'show':'hidden'}}">
     <view wx:for="{{deviceNames}}" wx:key="index">
       <view hover="true" hover-class="green_hover">
-        <view class="device-name" catchlongpress="deleteDevice" bindtap='deviceDetail' data-dname="{{deviceNames[index]}}">
-          <text>{{deviceNames[index]}}</text>
+        <view class="device-name oneline" catchlongpress="deleteDevice" bindtap='deviceDetail' data-dname="{{deviceNames[index]}}">
+          <view><image src="../../images/icon/monitor_device.png"/><text>{{deviceNames[index]}}</text></view>
         </view>
       </view>
     </view>
@@ -19,13 +19,13 @@
   <view class="{{groupSelected?'show':'hidden'}}">
     <view wx:for="{{groups}}" wx:key="index">
       <view hover="true" hover-class="green_hover">
-        <view class="group-name" catchlongpress="deleteGroup">
-          <text>{{groups[index].name}}</text>
+        <view class="group-name oneline" catchlongpress="deleteGroup" bindtap="groupDetail" data-group='{{groups[index]}}'>
+          <view><image src="../../images/icon/group.png"/><text>{{groups[index].name}}</text></view>
         </view>
       </view>
     </view>
     <view class="group-add">
-      <button type="primary" bindtap='changeGroup'>添加组别</button>
+      <button type="primary" bindtap='addGroup'>添加组别</button>
     </view>
 
 
@@ -37,7 +37,7 @@
         </view>  
         <!--对话框输入部分-->  
         <view class="input-view">  
-            <input type="text" bindblur="input_content" class="input-style"/>  
+            <input type="text" bindblur="input_content" class="input-style"  value='{{inputinfo}}'></input>  
         </view>  
         <!--对话框按钮-->  
         <view class="line-top">    
