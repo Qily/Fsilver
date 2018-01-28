@@ -9,6 +9,7 @@ Page({
         sensors: null,
         gnames: null,
         sensorDatas: null,
+        
         timer0:null,
         deviceSelected: true,
         groupSelected: false,

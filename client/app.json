@@ -3,6 +3,7 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/home/home",
+    "pages/group-device/group-device",
     "pages/monitor/monitor",
     "pages/manager/manager",
     "pages/mine/mine",

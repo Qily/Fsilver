@@ -27,3 +27,22 @@ textarea{
     padding-left:16px; 
     font-size: 17pt;
 }
+
+.oneline view{
+    display: flex;
+    flex-direction: row;
+    align-items: center;  
+} 
+
+.oneline input{
+    background-color: #fff;
+    padding: 8px;
+    padding-left:16px; 
+    font-size: 14pt;
+    width: 80%;
+}
+.oneline image{
+    margin: 2%;
+    width:10%;
+    background-color: #efef23;
+}

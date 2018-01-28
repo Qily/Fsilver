@@ -1,5 +1,7 @@
 const wrapper = require('co-mysql');
 const mysql = require('mysql');
+const tranquery = require('../middlewares/tranquery.js');
+
 const options = {
   host: 'ttggcc.dot.vip',
   port: 3306,
@@ -7,7 +9,9 @@ const options = {
   user: 'ttggcc',
   password: 'xjwl6677123'
 };
-let p = wrapper(mysql.createPool(options));
+
+let pool = mysql.createPool(options);
+let p = wrapper(pool);
 
 let getDeviceByUserId = async(ctx, next)=>{
   console.log("sqloper::getDeviceByUsername");
@@ -28,12 +32,95 @@ let getGroupByUserId = async(ctx, next)=>{
   ctx.body = {"groups": rows};
 };
 
-let getProducts = async (ctx, next) => {
-  console.log("sqlOper::getProducts");
-  let queryStr = "SELECT t1.id, t1.title, t1.description, t1.content, t1.imgurl, t2.price, t2.stock, t2.original from met_product t1 LEFT JOIN met_shopv2_product t2 ON t1.id = t2.pid";
-  var rows = await p.query(queryStr);
-  ctx.body = { "products": rows };
-};
+let getProducts = async(ctx, next) => {
+    // console.log("sqlOper::getProducts");
+    // let queryStr = "SELECT t1.id, t1.title, t1.description, t1.content, t1.imgurl, t2.price, t2.stock, t2.original from met_product t1 LEFT JOIN met_shopv2_product t2 ON t1.id = t2.pid";
+    // var rows = await p.query(queryStr);
+    // ctx.body = { "products": -1 };
+
+
+
+
+
+    /********************************************************************************** */
+    let queryStr = "UPDATE met_userdata_device SET name = 'test3' WHERE id = 94";
+    let queryStr2 = "UPDATE met_userdata_device SET name = 'test5' WHERE id = ?";
+    let dataList = await tranquery.tranquery2p(pool, queryStr, queryStr2);
+    ctx.body = { "products": dataList };
+
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+}
+/*********************************没有transaction的情况******************/
+// let myquery = function () {
+//     let queryStr = "SELECT t1.id, t1.title, t1.description, t1.content, t1.imgurl, t2.price, t2.stock, t2.original from met_product t1 LEFT JOIN met_shopv2_product t2 ON t1.id = t2.pid";
+//     return new Promise((resolve, reject) => {
+//         pool.getConnection(function (err, connection) {
+//             if (err) {
+//                 reject(err)
+//             } else {
+//                 connection.query(queryStr, (err, rows) => {
+
+//                     if (err) {
+//                         reject(err)
+//                     } else {
+//                         resolve(rows)
+//                     }
+//                     connection.release()
+//                 })
+//             }
+//         })
+//     })
+// }
+
+
+
+
+//-------------------------------------------解决了代码的事务问题，但是不好看------------------------------------
+
+
+
+
+
+//-------------------------------------------解决了代码的事务问题，但是不好看------------------------------------
+// let myquery = function () {
+//     let queryStr = "SELECT t1.id, t1.title, t1.description, t1.content, t1.imgurl, t2.price, t2.stock, t2.original from met_product1 t1 LEFT JOIN met_shopv2_product t2 ON t1.id = t2.pid";
+//     let queryStr2 = "SELECT t1.pid, t1.amount, t2.title, t2.imgurl, t3.price, t3.user_discount FROM met_shopv2_cart t1 LEFT JOIN met_product t2 ON t1.pid = t2.id LEFT JOIN met_shopv2_product t3 ON t1.pid = t3.pid WHERE t1.uid = 7";
+//     return new Promise((resolve, reject) => {
+//         pool.getConnection(function (err, connection) {
+//             if (err) {
+//                 reject(err)
+//             }
+//             connection.beginTransaction(function(err){
+//                 if(err){
+//                     reject(err);
+//                 }
+//                 try{
+//                     let row1 = connection.query(queryStr)
+//                     let row2 = connection.query(queryStr2)
+//                 } catch(err){
+//                     reject(err);
+//                 }
+                
+//                 connection.commit(function(err){
+//                     if(err){
+//                         return connection.rollback(function(){
+//                             throw err;
+//                         })
+//                     }
+//                 })
+//                 resolve(rows2);
+//             })
+
+//             connection.release()
+//         })
+//     })
+// }
+
+
+
+
+
 
 let buyProduct = async (ctx, next) => {
   console.log("sqlOper::buyProduct");
@@ -100,6 +187,101 @@ let deleteGroup = async (ctx, next) => {
     ctx.body = { "deleteGroupRes": res };
 }
 
+let delDevice = async (ctx, next) =>{
+    let deviceId = ctx.request.query.deviceId;
+    console.log("+++++++++++" + deviceId + "+++++++++++++");
+    
+    let queryStr1 = "DELETE FROM met_userdata_sensor WHERE device_id =" + deviceId;
+    let queryStr2 = "DELETE FROM met_userdata_scene_device WHERE device_id =" + deviceId;
+    let queryStr3 = "UPDATE met_userdata_onet SET device_id = null WHERE device_id =" + deviceId;
+    let queryStr4 = "DELETE FROM met_userdata_device WHERE id =" + deviceId;
+    let dataList = await tranquery.tranquery4p(pool, queryStr1, queryStr2, queryStr3, queryStr4);
+    ctx.body = { "res": dataList };
+}
+//添加设备，事务操作
+//在ddwl_device表中查看唯一标识码是否存在
+let addDevice = async(ctx, next)=>{
+    let serial = ctx.request.body.serial;
+    let deviceName = ctx.request.body.deviceName;
+    let deviceLoca = ctx.request.body.deviceLoca;
+    let groupId = ctx.request.body.groupId;
+    let desc = ctx.request.body.desc;
+    
+    let row = await p.query("SELECT id from met_userdata_ddwl_device WHERE serial_number = '" + serial + "'");
+    console.log(row);
+    if(row[0].id){
+        let queryStr1 = "insert into met_userdata_device(group_id, name, location, serial_number, description) values ("+groupId+", '"+deviceName+"', '"+deviceLoca+"', '"+serial+"', '"+desc+"')";
+        // let res = await p.query(queryStr1);
+        let res = await subAddDevice(row[0].id, queryStr1);
+        if(res.row3[0].id){
+            for (var i in res.row3) {
+                await p.query("insert into met_userdata_sensor(device_id, type_id) values (" + res.row1.insertId + ", " + res.row3[i].type_id + ")")
+            }
+            ctx.body = { "res": 1 };
+        } else{
+            ctx.body = { "res": -2 };
+        }
+        
+        
+    } else{
+        ctx.body = {"res": -1};
+    }
+
+
+}
+//添加设备
+let subAddDevice = function (ddwlDeviceId, queryStr1) {
+    return new Promise((resolve, reject) => {
+        pool.getConnection(function (err, connection) {
+            if (err) {
+                reject(err)
+            }
+            connection.beginTransaction(function (err) {
+                if (err) {
+                    reject(err);
+                }
+                connection.query(queryStr1, (err, rows1) => {
+                    if (err) {
+                        connection.rollback(function () {
+                            reject(err);
+                        })
+                    }
+                    // console.log(row1)
+                    connection.query("update met_userdata_onet set device_id=" + rows1.insertId + " where ddwl_device_id = " + ddwlDeviceId, (err, row2) => {
+                        if (err) {
+                            connection.rollback(function () {
+                                reject(err);
+                            })
+                        }
+                        
+                        connection.query("select * from met_userdata_ddwl_sensor where device_id = " + ddwlDeviceId, (err, row3) => {
+                            if (err) {
+                                connection.rollback(function () {
+                                    reject(err);
+                                })
+                            }
+                            connection.commit(function (err) {
+                                if (err) {
+                                    connection.rollback(function () {
+                                        reject(err);
+                                    })
+                                }
+                            })
+
+                            let res = new Object();
+                            res.row1 = rows1;
+                            res.row2 = row2;
+                            res.row3 = row3;
+                            resolve(res);
+                        })
+                    })
+                })
+            })
+            connection.release()
+        })
+    })
+}
+
 
 module.exports = {
   getDevices: getDeviceByUserId,
@@ -112,4 +294,6 @@ module.exports = {
   changePass: changePass,
   addGroup: addGroup,
   deleteGroup: deleteGroup,
+  delDevice: delDevice,
+  addDevice: addDevice,
 };

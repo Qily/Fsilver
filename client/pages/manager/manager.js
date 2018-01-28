@@ -35,31 +35,7 @@ Page({
         this.getDeviceName(wx.getStorageSync("device-key"));
         wx.hideLoading();
       } else {
-        const requestTask = wx.request({
-          url: my_config.host + '/weapp/devices?id=' + userId, //仅为示例，并非真实的接口地址
-          method: 'GET',
-          header: {
-            'content-type': 'application/x-www-form-urlencoded'
-          },
-          success: function (res) {
-            wx.hideLoading();
-            // that.setData({
-            //   devices: res.data.GroupId
-            // });
-            try {
-              wx.setStorageSync('device-key', res.data.GroupId);
-            } catch (e) {
-
-            }
-            console.log(wx.getStorageSync('device-key'));
-            that.getDeviceName(wx.getStorageSync("device-key"));
-
-            console.log(that.data.deviceNames);
-          },
-          fail: function (err) {
-            console.log(err)
-          }
-        })
+        this.deviceInit(userId)
       }
     } catch (e) {
 
@@ -67,6 +43,40 @@ Page({
 
     this.groupInit();
   },
+    //初始化设备操作
+    deviceInit: function(userId){
+        var that =this;
+        const requestTask = wx.request({
+            url: my_config.host + '/weapp/devices?id=' + userId, //仅为示例，并非真实的接口地址
+            method: 'GET',
+            header: {
+                'content-type': 'application/x-www-form-urlencoded'
+            },
+            success: function (res) {
+                wx.hideLoading();
+                // that.setData({
+                //   devices: res.data.GroupId
+                // });
+                try {
+                    wx.setStorageSync('device-key', res.data.GroupId);
+                } catch (e) {
+
+                }
+                console.log(wx.getStorageSync('device-key'));
+                that.getDeviceName(wx.getStorageSync("device-key"));
+
+                console.log(that.data.deviceNames);
+            },
+            fail: function (err) {
+                console.log(err)
+            }
+        })
+    },
+
+    onShow:function(){
+        this.deviceInit(wx.getStorageSync('userinfo').id);
+        this.groupInit();
+    },
 
     groupInit: function(){
         var that = this;
@@ -122,18 +132,45 @@ Page({
       sensors: sensorFlows,
     });
   },
-  deleteDevice:function(){
-    wx.showModal({
-      content: "是否删除？",
-      success:function(res){
-        if(res.confirm){          
-          console.log("yes");
-        } else if(res.cancel){
-          console.log("no");
+    deleteDevice:function(event){
+        //由于时间紧迫，只能先按照之前的方案，根据设备名称，找出设备id
+        let that = this;
+        let dName = event.currentTarget.dataset.dname;
+        let devices = wx.getStorageSync("device-key");
+        let deviceId = 0;
+        for(var i in devices){
+            if(devices[i].dname == dName){
+                deviceId = devices[i].did;
+                break;
+            }
         }
-      }
-    })
-  },
+        // console.log(deviceId);
+        wx.showModal({
+        content: "是否删除？",
+            success:function(res){
+                if(res.confirm){          
+                    console.log("yes");
+
+                    //做设备删除操作
+                    GET_REQ.GET({
+                        uri: "/del_device?deviceId="+deviceId,
+                        param: {},
+                        success:function(res){
+                            console.log(res.data);
+                            that.deviceInit(wx.getStorageSync("userinfo").id);
+                        },
+                        fail:function(err){
+                            
+                        } 
+                    });
+                    
+
+                } else if(res.cancel){
+                    console.log("no");
+                }
+            }
+        })
+    },
 
   deviceDetail:function(event){
     var name = event.currentTarget.dataset.dname;
@@ -155,12 +192,7 @@ Page({
     })
   },
   deviceAdd:function(){
-    // wx.scanCode({
-    //   onlyFromCamera: true,
-    //   success: (res) => {
-    //     console.log(res)
-    //   }
-    // })
+    
       wx.navigateTo({
           url: '../manager-modify-add/manager-add-device/manager-add-device',
       })
