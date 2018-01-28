@@ -35,7 +35,6 @@ App({
   },
 
 
-
   editTabBar: function () {
     var tabbar = this.globalData.tabbar,
       currentPages = getCurrentPages(),

@@ -1,8 +1,15 @@
-<swiper indicator-dots="{{indicatorDots}}"
-  autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-  <block wx:for="{{imgUrls}}" wx:key="{{index}}">
-    <swiper-item>
-      <image src="{{item}}" class="slide-image"/>
-    </swiper-item>
-  </block>
-</swiper>
+<view>
+    <swiper indicator-dots="{{indicatorDots}}"
+    autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+        <block wx:for="{{imgUrls}}" wx:key="index">
+            <swiper-item>
+            <image src="{{item}}" class="slide-image"/>
+            </swiper-item>
+        </block>
+
+    </swiper>
+
+    <view class="group" wx:for="{{groups}}" wx:key="index">
+        <view class="one-group" bindtap='groupData' data-groupid='{{index}}'><image src="../../images/icon/g_{{index+1}}.png" mode='widthFix'></image><text>{{item.name}}</text></view> 
+    </view>
+</view>

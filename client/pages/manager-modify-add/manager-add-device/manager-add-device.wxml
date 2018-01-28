@@ -1,40 +1,43 @@
 <!--pages/manager-modify-device/manager-modify-device.wxml-->
 
 <scroll-view>
-  <view class="name-info">
-    <text>设备名称</text>
-  </view>
-  <view class="value-info">
-    <input value='{{device.dname}}'></input>
-  </view>
-  <view class="name-info">
-    <text>设备位置</text>
-  </view>
-  <view class="value-info">
-    <input value='{{device.dloca}}'></input>
-  </view>
-  <view class="name-info">
-    <text>设备组别</text>
-  </view>
-  <view class="value-info">
-    <picker bindchange='bindPickerChanger' mode="selector" range="{{groups2}}" value="{{ind}}">
-        <text>{{groups2[ind]}}</text>
-    </picker>
-  </view>
-  <view class="name-info">
-    <text>传感器数目</text>
-  </view>
-  <view class="disabled-value">
-    <input value='{{sensorCount}}' disabled='false'></input>
-  </view>
-  <view class="name-info">
-    <text>设备描述</text>
-  </view>
-  <view class="value-info">
-    <textarea value='{{deviceName}}'></textarea>
-  </view>
-  <view class="save-info">
-    <button type="primary">添加</button>
-  </view>
+
+    <view class="name-info">
+        <text>唯一标识码</text>
+    </view>
+    <view class="oneline">
+        <view><input value='{{serial}}' bindinput='inputSerial'></input>
+        <image src="../../../images/icon/bin_code.png" mode="widthFix" bindtap="getSerialByCode"></image></view>
+    </view>
+    <view class="name-info">
+        <text>设备名称</text>
+    </view>
+    <view class="value-info">
+        <input value='{{deviceName}}' bindinput="setDeiveName"></input>
+    </view>
+    <view class="name-info">
+        <text>设备位置</text>
+    </view>
+    <view class="value-info">
+        <input value='{{deviceLoca}}' bindinput="setDeviceLoca"></input>
+    </view>
+    <view class="name-info">
+        <text>设备组别</text>
+    </view>
+    <view class="value-info">
+        <picker bindchange='bindPickerChanger' mode="selector" range="{{groups2}}" value="{{ind}}">
+            <text>{{groups2[ind]}}</text>
+        </picker>
+    </view>
+    
+    <view class="name-info">
+        <text>设备描述</text>
+    </view>
+    <view class="value-info">
+        <textarea value='{{desc}}' bindinput="setDeviceDesc"></textarea>
+    </view>
+    <view class="save-info">
+        <button type="primary" bindtap="btnAddDevice">添加</button>
+    </view>
 </scroll-view>
 
