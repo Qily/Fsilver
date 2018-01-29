@@ -1,2 +1,39 @@
 <!--pages/group-device/group-device.wxml-->
-<text>pages/group-device/group-device.wxml</text>
+ <view wx:for="{{deviceNames}}" wx:key="index">
+            <view class="line line-control device">
+                <view bindtap="showCharts" data-dname="{{deviceNames[index]}}">
+                    <view class="single-sensor-title">
+                        <image class="device-img" src="../../images/icon/monitor_device.png" style='width:24px;height:24px'></image>
+                        <text class="device-name">{{deviceNames[index]}}</text>
+                        <text class="device-gname">{{deviceLocas[index]}}</text>
+                    </view>
+
+                    <view class="single-device-sensors">
+                        <view wx:for="{{sensors[index]}}" wx:for-index="idx" wx:key="index">
+                            <view class="sensors">
+                                <view wx:if="{{sensors[index][idx] === 'humidity_data_flow'}}" class="single-sensor">
+                                    <image src="../../images/icon/monitor_humi.png"></image>
+                                    {{sensorDatas[0][0]}}
+                                </view> 
+                                <view wx:if="{{sensors[index][idx]  === 'temperature_data_flow'}}" class="single-sensor">
+                                    <image src="../../images/icon/monitor_temp.png"></image>
+                                    {{sensorDatas[index][idx]}}
+                                </view> 
+                                <view wx:if="{{sensors[index][idx]  === 'close_on_data_flow'}}" class="single-sensor">
+                                    <image src="../../images/icon/monitor_close_on.png"></image>
+                                    {{sensorDatas[index][idx]}}
+                                </view>
+                                <view wx:if="{{sensors[index][idx]  === 'light_data_flow'}}" class="single-sensor">
+                                    <image src="../../images/icon/monitor_light.png"></image>
+                                    {{sensorDatas[index][idx]}}
+                                </view> 
+                                <view wx:if="{{sensors[index][idx]  === 'co2_data_flow'}}" class="single-sensor">
+                                    <image src="../../images/icon/monitor_co2.png"></image>
+                                    {{sensorDatas[index][idx]}}
+                                </view>   
+                            </view>   
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>

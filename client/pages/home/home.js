@@ -54,10 +54,10 @@ Page({
     
     groupData:function(e){
         let groupIndex = e.currentTarget.dataset.groupid;
-        let groupId = this.data.groups[groupIndex].id;
+        let groupName = this.data.groups[groupIndex].name;
         // console.log(groupId);
-        wx.redirectTo({
-            url: '../group-device/group-device?groupId=' + groupId,
+        wx.navigateTo({
+            url: '../group-device/group-device?groupName=' + groupName,
         })
     }
 })

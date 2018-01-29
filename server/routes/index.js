@@ -31,6 +31,8 @@ router.get("/del_device", controllers.sqloper.delDevice);
 
 router.post("/add_device", controllers.sqloper.addDevice);
 
+router.post("/update_device", controllers.sqloper.updateDevice);
+
 
 //云平台交互测试
 router.get('/onet', controllers.onet.onetTest);
