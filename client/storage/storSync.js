@@ -22,8 +22,35 @@ let setUserinfo = (data)=>{
     }
 }
 
+let getGroupData = () => {
+    try {
+        return wx.getStorageSync("groups")
+    } catch (e) {
+
+    }
+}
+
+let getDeviceData = () => {
+    try {
+        return wx.getStorageSync("device-key")
+    } catch (e) {
+
+    }
+}
+
+let getUserinfo = () => {
+    try {
+        return wx.getStorageSync("userinfo")
+    } catch (e) {
+
+    }
+}
+
 module.exports = {
     setGroupData: setGroupData,
     setDeviceData: setDeviceData,
-    setUserinfo: setUserinfo,    
+    setUserinfo: setUserinfo,
+    getGroupData: getGroupData,
+    getDeviceData: getDeviceData,
+    getUserinfo: getUserinfo, 
 }

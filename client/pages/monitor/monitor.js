@@ -1,8 +1,10 @@
 //index.js
 const my_config = require("../../commons/config.js");
 // const sub_scenes = require("sub-monitor/scenes.js");
-//获取应用实例
+const req2Sync = require("../../storage/req2Sync.js");
+const storage = require("../../storage/storSync.js");
 
+//获取应用实例
 Page({
     data: {
         deviceNames: null,
@@ -17,54 +19,32 @@ Page({
     },
     onLoad: function () {
         wx.showLoading({
-        title: '加载中',
+            title: '加载中',
         });
         wx.setNavigationBarTitle({
-        title: '实时监测',
+            title: '实时监测',
         });
-        try{
-        var value = wx.getStorageSync('device-key');
-        if(value){
-            this.getDeviceName(wx.getStorageSync("device-key"));
-            this.getDeviceSensor(this.data.deviceNames, wx.getStorageSync('device-key'));
-            wx.hideLoading();
-        } else{
-            var that = this;
-            var userId = wx.getStorageSync("userinfo").id;
+        
+        req2Sync.reqDevices();
+        req2Sync.reqGroups();
 
-            const requestTask = wx.request({
-                url: my_config.host + '/weapp/devices?id=' + userId,
-                method: 'GET',
-                header: {
-                    'content-type': 'application/x-www-form-urlencoded'
-                },
-                success: function (res) {
-                    wx.hideLoading();
-                    // that.setData({
-                    //   devices: res.data.GroupId
-                    // });
-                    try{
-                    wx.setStorageSync('device-key', res.data.GroupId);
-                    } catch(e){
+        this.getDeviceName(storage.getDeviceData());
+        this.getDeviceSensor(this.data.deviceNames, storage.getDeviceData());
+        this.getSenesorData(this.data.sensors, storage.getDeviceData());
 
-                    }
-                    that.getDeviceName(wx.getStorageSync("device-key"));
-                    that.getDeviceSensor(that.data.deviceNames, wx.getStorageSync('device-key'));
-                },
-                fail: function (err) {
-                    console.log(err)
-                }
-            })
-        }
-        } catch (e){
-
-        };
-
-        this.getSenesorData(this.data.sensors, wx.getStorageSync('device-key'));
+        wx.hideLoading();
     },
 
     onShow:function(){
         var that = this;
+
+        req2Sync.reqDevices();
+        req2Sync.reqGroups();
+
+        this.getDeviceName(storage.getDeviceData());
+        this.getDeviceSensor(this.data.deviceNames, storage.getDeviceData());
+        this.getSenesorData(this.data.sensors, storage.getDeviceData());
+
         this.data.timer0 = setInterval(function () {
             if (that.data.sensors) {
                 that.getSenesorData(that.data.sensors, wx.getStorageSync('device-key'));
@@ -73,11 +53,18 @@ Page({
     },
 
     onPullDownRefresh:function(){
+        req2Sync.reqDevices();
+        req2Sync.reqGroups();
+
+        this.getDeviceName(storage.getDeviceData());
+        this.getDeviceSensor(this.data.deviceNames, storage.getDeviceData());
+        this.getSenesorData(this.data.sensors, storage.getDeviceData());
+
         this.getSenesorData(this.data.sensors, wx.getStorageSync('device-key'));
         wx.showToast({
-        title: '刷新成功',
-        icon: 'success',
-        duration: 1000
+            title: '刷新成功',
+            icon: 'success',
+            duration: 1000
         });
         wx.stopPullDownRefresh();
         

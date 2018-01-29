@@ -5,19 +5,19 @@
     <text>设备名称</text>
   </view>
   <view class="value-info">
-    <input value='{{device.dname}}'></input>
+    <input value='{{device.dname}}' bindinput='getDeviceName'></input>
   </view>
   <view class="name-info">
     <text>设备位置</text>
   </view>
   <view class="value-info">
-    <input value='{{device.dloca}}'></input>
+    <input value='{{device.dloca}}' bindinput="getDeviceLoca"></input>
   </view>
   <view class="name-info">
     <text>设备组别</text>
   </view>
   <view class="value-info">
-    <picker bindchange='bindPickerChanger' mode="selector" range="{{groups2}}" value="{{ind}}">
+    <picker bindchange='getGroupId' mode="selector" range="{{groups2}}" value="{{ind}}">
         <text>{{groups2[ind]}}</text>
     </picker>
   </view>
@@ -31,10 +31,10 @@
     <text>设备描述</text>
   </view>
   <view class="value-info">
-    <textarea value='{{deviceName}}'></textarea>
+    <textarea value='{{device.ddesc}}' bindinput="getDeviceDesc"></textarea>
   </view>
   <view class="save-info">
-    <button type="primary">保存</button>
+    <button type="primary" bindtap="updateDevice">保存</button>
   </view>
 </scroll-view>
 

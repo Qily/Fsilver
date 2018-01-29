@@ -4,134 +4,99 @@ const my_config = require("../../commons/config.js");
 const util = require("../../utils/util.js");
 const POST_REQ = require("../../request/postReq.js");
 const GET_REQ = require("../../request/getReq.js");
+const req2Sync = require("../../storage/req2Sync.js");
+
 var app = getApp() 
 Page({
-  data: {
-    devices: null,
-    deviceNames: null,
-    sensors: null,
-    gnames: null,
-    deviceSelected: true,
-    groupSelected: false,
-    groups: null,
-    inputinfo: "",
-    addGroup: 0,
-    animationData: "",
-    showModalStatus: false 
-  },
-  onLoad: function () {
-    var that = this;
-    let userId = wx.getStorageSync("userinfo").id;
-    
-    wx.showLoading({
-      title: '加载中',
-    });
-    wx.setNavigationBarTitle({
-      title: '设备管理',
-    });
-    try {
-      var value = wx.getStorageSync('device-key');
-      if (value) {
+    data: {
+        devices: null,
+        deviceNames: null,
+        sensors: null,
+        gnames: null,
+        deviceSelected: true,
+        groupSelected: false,
+        groups: null,
+        inputinfo: "",
+        addGroup: 0,
+        animationData: "",
+        showModalStatus: false 
+    },
+    onLoad: function () {
+        var that = this;
+        let userId = wx.getStorageSync("userinfo").id;
+        
+        wx.showLoading({
+            title: '加载中',
+        });
+        wx.setNavigationBarTitle({
+            title: '设备管理',
+        });
+        req2Sync.reqDevices();
+        req2Sync.reqGroups();
         this.getDeviceName(wx.getStorageSync("device-key"));
+        this.setData({
+            groups: wx.getStorageSync('groups'),
+        });
         wx.hideLoading();
-      } else {
-        this.deviceInit(userId)
-      }
-    } catch (e) {
-
-    };
-
-    this.groupInit();
-  },
-    //初始化设备操作
-    deviceInit: function(userId){
-        var that =this;
-        const requestTask = wx.request({
-            url: my_config.host + '/weapp/devices?id=' + userId, //仅为示例，并非真实的接口地址
-            method: 'GET',
-            header: {
-                'content-type': 'application/x-www-form-urlencoded'
-            },
-            success: function (res) {
-                wx.hideLoading();
-                // that.setData({
-                //   devices: res.data.GroupId
-                // });
-                try {
-                    wx.setStorageSync('device-key', res.data.GroupId);
-                } catch (e) {
-
-                }
-                console.log(wx.getStorageSync('device-key'));
-                that.getDeviceName(wx.getStorageSync("device-key"));
-
-                console.log(that.data.deviceNames);
-            },
-            fail: function (err) {
-                console.log(err)
-            }
-        })
     },
 
     onShow:function(){
-        this.deviceInit(wx.getStorageSync('userinfo').id);
-        this.groupInit();
+        wx.showLoading({
+            title: '加载中',
+        });
+        req2Sync.reqDevices();
+        req2Sync.reqGroups();
+        this.getDeviceName(wx.getStorageSync("device-key"));
+        this.setData({
+            groups: wx.getStorageSync('groups'),
+        });
+        wx.hideLoading();
     },
 
-    groupInit: function(){
-        var that = this;
+    onPullDownRefresh:function(){
+        req2Sync.reqDevices();
+        req2Sync.reqGroups();
+        this.getDeviceName(wx.getStorageSync("device-key"));
+        this.setData({
+            groups: wx.getStorageSync('groups'),
+        });
 
-        let params = new Object();
-        params.id = wx.getStorageSync("userinfo").id;
+        wx.stopPullDownRefresh();
+    },
 
-        GET_REQ.GET({
-            uri: "/groups",
-            params: params,
-            success:function(res){
-                let groups = wx.getStorageSync("groups");
-                if (!groups) {
-                    groups = wx.setStorageSync("groups", res.data.groups)
-                }
-                that.setData({
-                    groups: res.data.groups,
-                });
-            },
-            fail: function(err){
-                console.log("+++++++++++manager.js-68+++++++++++++++++++");
-                console.log(err);
+    getDeviceName: function (devices) {
+        console.log("-----------------")
+        console.log(devices);
+        var dns = new Array();
+        var dls = new Array();
+        var sensorFlows = new Array();
+        var si = 0;
+        for (var i in devices) {
+        sensorFlows[i] = new Array();
+        var isExist = false;
+        for (var j in dns) {
+            if (dns[j] === devices[i].dname) {
+            sensorFlows[i][si] = devices[i].sdataflow;
+            si++;
+            isExist = true;
             }
-        })
+        }
+        if (isExist === false) {
+            dns.push(devices[i].dname);
+            dls.push(devices[i].gname);
+            sensorFlows[i][si] = devices[i].sdataflow;
+            si++;
+        }
+        }
+        console.log(this.data.devices);
+
+        this.setData({
+            deviceNames: dns,
+            gnames: dls,
+            sensors: sensorFlows,
+        });
     },
 
-  getDeviceName: function (devices) {
-    var dns = new Array();
-    var dls = new Array();
-    var sensorFlows = new Array();
-    var si = 0;
-    for (var i in devices) {
-      sensorFlows[i] = new Array();
-      var isExist = false;
-      for (var j in dns) {
-        if (dns[j] === devices[i].dname) {
-          sensorFlows[i][si] = devices[i].sdataflow;
-          si++;
-          isExist = true;
-        }
-      }
-      if (isExist === false) {
-        dns.push(devices[i].dname);
-        dls.push(devices[i].gname);
-        sensorFlows[i][si] = devices[i].sdataflow;
-        si++;
-      }
-    }
-    console.log(this.data.devices);
-    this.setData({
-      deviceNames: dns,
-      gnames: dls,
-      sensors: sensorFlows,
-    });
-  },
     deleteDevice:function(event){
         //由于时间紧迫，只能先按照之前的方案，根据设备名称，找出设备id
         let that = this;
@@ -149,22 +114,18 @@ Page({
         content: "是否删除？",
             success:function(res){
                 if(res.confirm){          
-                    console.log("yes");
-
                     //做设备删除操作
                     GET_REQ.GET({
-                        uri: "/del_device?deviceId="+deviceId,
+                        uri: "/del_device?deviceId=" + deviceId,
                         param: {},
                         success:function(res){
-                            console.log(res.data);
-                            that.deviceInit(wx.getStorageSync("userinfo").id);
+                            req2Sync.reqDevices();
+                            that.getDeviceName(wx.getStorageSync("device-key"));
                         },
                         fail:function(err){
-                            
+
                         } 
                     });
-                    
-
                 } else if(res.cancel){
                     console.log("no");
                 }
@@ -245,7 +206,7 @@ Page({
                 }
             },
             fail: function(err){
-                console.log(err);
+
             }
         })
     },

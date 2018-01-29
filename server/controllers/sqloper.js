@@ -16,9 +16,9 @@ let p = wrapper(pool);
 let getDeviceByUserId = async(ctx, next)=>{
   console.log("sqloper::getDeviceByUsername");
   let userId = ctx.request.query.id;
-  let queryStr = "SELECT t1.id, t1.username,  t2.name as gname, t3.id as did, t3.name as dname, t3.location as dloca, t5.data_flow as sdataflow, t6.onet_device_id as odid \
+  let queryStr = "SELECT t1.id, t1.username,  t2.name as gname, t3.id as did, t3.name as dname, t3.description as ddesc, t3.location as dloca, t5.data_flow as sdataflow, t6.onet_device_id as odid \
   from met_user t1 RIGHT JOIN met_userdata_group  t2 ON t1.id = t2.create_man_id  LEFT JOIN met_userdata_device t3 ON t2.id = t3.group_id\
-  LEFT JOIN met_userdata_sensor t4 ON t3.id = t4.device_id  LEFT JOIN met_userdata_type t5 ON t5.id = t4.type_id LEFT JOIN met_userdata_onet t6 ON t6.device_id = t3.id WHERE t1.id= "+userId;
+  LEFT JOIN met_userdata_sensor t4 ON t3.id = t4.device_id  LEFT JOIN met_userdata_type t5 ON t5.id = t4.type_id LEFT JOIN met_userdata_onet t6 ON t6.device_id = t3.id WHERE t1.id= "+userId + " ORDER BY t2.id ASC";
   var rows = await p.query(queryStr);
   // var rows = await p.query("SELECT * FROM met_userdata_device WHERE ");
   ctx.body = {"GroupId": rows};
@@ -196,6 +196,7 @@ let delDevice = async (ctx, next) =>{
     let queryStr3 = "UPDATE met_userdata_onet SET device_id = null WHERE device_id =" + deviceId;
     let queryStr4 = "DELETE FROM met_userdata_device WHERE id =" + deviceId;
     let dataList = await tranquery.tranquery4p(pool, queryStr1, queryStr2, queryStr3, queryStr4);
+    // let dataList = await tranquery.tranquery3p(pool, queryStr1, queryStr2, queryStr3);
     ctx.body = { "res": dataList };
 }
 //添加设备，事务操作
@@ -282,6 +283,19 @@ let subAddDevice = function (ddwlDeviceId, queryStr1) {
     })
 }
 
+let updateDevice = async(ctx, next)=>{
+    let deviceId = ctx.request.body.deviceId;
+    let deviceName = ctx.request.body.deviceName;
+    let deviceLoca = ctx.request.body.deviceLoca;
+    let groupId = ctx.request.body.groupId;
+    let deviceDesc = ctx.request.body.deviceDesc;
+
+    let queryStr = "update met_userdata_device set group_id="+groupId+", name='"+deviceName+"', location='"+deviceLoca+"', description='"+deviceDesc+"' WHERE id = "+ deviceId;
+
+    let rows = await p.query(queryStr);
+    ctx.body = {res: rows};
+
+}
 
 module.exports = {
   getDevices: getDeviceByUserId,
@@ -296,4 +310,5 @@ module.exports = {
   deleteGroup: deleteGroup,
   delDevice: delDevice,
   addDevice: addDevice,
+  updateDevice: updateDevice,
 };
