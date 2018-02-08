@@ -1,7 +1,9 @@
 // pages/monitor-chart/monitor-chart.js
 const my_config = require("../../commons/config.js");
-Page({
 
+var lineChart = new Array();
+
+Page({
   /**
    * 页面的初始数据
    */
@@ -14,6 +16,35 @@ Page({
     charts: null,
   },
 
+
+  touchHandler: function (e) {
+    //   console.log(e);
+      try{
+          let idx = parseInt(e.target.id);
+          lineChart[idx].scrollStart(e);
+      } catch(err){
+
+      }
+      
+  },
+  moveHandler: function (e) {
+      try {
+          let idx = parseInt(e.target.id);
+          lineChart[idx].scroll(e);
+          console.log(idx);
+      } catch (err) {
+
+      }
+  },
+  touchEndHandler: function (e) {
+      let idx = parseInt(e.target.id);
+      lineChart[idx].scrollEnd(e);
+      lineChart[idx].showToolTip(e, {
+          format: function (item, category) {
+              return category + ' ' + item.name + ':' + item.data
+          }
+      });
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -37,16 +68,20 @@ Page({
   },
 
   onShow:function(){
-    this.getSensorsValue(0, this.data.onetDeviceId, 5);
-    this.getSensorsValue(1, this.data.onetDeviceId, 5);
-    var that = this;
     var i = 0;
+    for(i in this.data.dataflows){
+        this.getSensorsValue(i, this.data.onetDeviceId, 10);
+    }
+    i = 0;
+    // this.getSensorsValue(0, this.data.onetDeviceId, 5);
+    // this.getSensorsValue(1, this.data.onetDeviceId, 5);
+    var that = this;
     this.data.charts = setInterval(function(){
-      that.getSensorsValue(i, that.data.onetDeviceId, 5);
-      i++;
-      if(i > that.data.dataflows.length){
-        i = 0;
-      }
+        that.getSensorsValue(i, that.data.onetDeviceId, 10);
+        i++;
+        if(i > that.data.dataflows.length){
+            i = 0;
+        }
     }, 5000);
   },
 
@@ -75,41 +110,84 @@ Page({
       sensorValueInfo: sensorValueInfo,
     });
   },
-  paintLineChart:function(canvasId, titleName, seriesName, unitName, xData, yData){
-    let wWidth;
-    let canvasIdStr = "chart"+canvasId;
-    try {
-      let res = wx.getSystemInfoSync();
-      wWidth = res.screenWidth;
-    } catch (e) {
-      // do something when get system info failed
-    }
-    var wxCharts = require('../../utils/wxcharts.js');
-    var xData = xData;
-    new wxCharts({
-        canvasId: canvasIdStr,
-        background: '#eeeeee',
-        animation: false,
-        legend: false,
-        type: 'line',
-        categories: xData,
-        series: [{
-            name: seriesName,
-            data: yData,
-            format: function (val) {
-                return val.toFixed(0) + unitName;
-            }
-        }],
-        yAxis: {
-            title: titleName,
-            format: function (val) {
-            return val.toFixed(2);
-            },
-            min: 0
-        },
-        width: wWidth,
-        height: 200,
-        });
+//   paintLineChart:function(canvasId, titleName, seriesName, unitName, xData, yData){
+//     let wWidth;
+//     let canvasIdStr = "chart"+canvasId;
+//     try {
+//       let res = wx.getSystemInfoSync();
+//       wWidth = res.screenWidth;
+//     } catch (e) {
+//       // do something when get system info failed
+//     }
+//     var wxCharts = require('../../utils/wxcharts.js');
+//     var xData = xData;
+//     lineChart[canvasId] = new wxCharts({
+//         canvasId: canvasIdStr,
+//         background: '#eeeeee',
+//         animation: false,
+//         legend: false,
+//         type: 'line',
+//         categories: xData,
+//         series: [{
+//             name: seriesName,
+//             data: yData,
+//             format: function (val) {
+//                 return val.toFixed(0) + unitName;
+//             }
+//         }],
+//         yAxis: {
+//             title: titleName,
+//             format: function (val) {
+//             return val.toFixed(0);
+//             },
+//             // min: 0
+//         },
+//         width: wWidth,
+//         height: 200,
+//         });
+//   },
+
+  paintLineChart: function (canvasId, titleName, seriesName, unitName, xData, yData) {
+      let wWidth;
+      let canvasIdStr = "chart" + canvasId;
+      try {
+          let res = wx.getSystemInfoSync();
+          wWidth = res.screenWidth;
+      } catch (e) {
+          // do something when get system info failed
+      }
+      var wxCharts = require('../../utils/wxcharts.js');
+      var xData = xData;
+      lineChart[canvasId] = new wxCharts({
+          canvasId: canvasIdStr,
+          background: '#eeeeee',
+          animation: false,
+          legend: false,
+          type: 'line',
+          categories: xData,
+          series: [{
+              name: seriesName,
+              data: yData,
+              format: function (val) {
+                  return val.toFixed(0) + unitName;
+              }
+          }],
+          yAxis: {
+              title: titleName,
+              format: function (val) {
+                  return val.toFixed(0);
+              },
+              // min: 0
+          },
+          width: wWidth,
+          height: 200,
+          dataLabel: true,
+          dataPointShape: true,
+          enableScroll: true,
+          extra: {
+              lineStyle: 'curve'
+          }
+      });
   },
 
   getDataflows:function(deviceName){
