@@ -1,9 +1,9 @@
 <!--pages/monitor-chart/monitor-chart.wxml-->
  <view class="charts">
   <view class="device-name">{{deviceName}}</view>
-  <view wx:for="{{dataflows}}" class="sensor-chart" wx:key="index" wx:for-index="id">
+  <view wx:for="{{dataflows}}" class="sensor-chart" wx:key="index" wx:for-index="id" >
      <!-- <view>{{dataflows[index]}}   -->
-      <canvas canvas-id='chart{{id}}'></canvas>
+      <canvas id="{{id}}" canvas-id='chart{{id}}' disable-scroll="true" data-index='{{id}}' bindtouchstart="touchHandler" bindtouchmove="moveHandler" bindtouchend="touchEndHandler"></canvas>
      <!-- </view>  -->
   </view>
 </view>
