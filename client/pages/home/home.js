@@ -1,4 +1,5 @@
-let req2Sync = require("../../storage/req2Sync.js");
+const req2Sync = require("../../storage/req2Sync.js");
+const app = getApp();
 
 Page({
     data: {
@@ -14,8 +15,7 @@ Page({
         interval: 3000,
         duration: 100,
 
-        //用于记录device数据和group数据
-        devices: null,
+        //用于记录group数据
         groups: null,
     },
 
@@ -47,11 +47,8 @@ Page({
 
         }
         this.setData({
-            devices: devices,
             groups: groups
         })
-        console.log(this.data.groups);
-        console.log(this.data.devices);
         wx.stopPullDownRefresh();
     },
     

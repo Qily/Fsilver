@@ -49,6 +49,7 @@ App({
       tabbar: tabbar
     });
   },
+
   globalData: {
     userInfo: null,
     tabbar: {

@@ -6,6 +6,14 @@ let setGroupData = (data)=>{
     }
 }
 
+let setDealDeviceData = (data)=>{
+  try {
+    wx.setStorageSync("deal-device-key", data)
+  } catch (e) {
+
+  }
+}
+
 let setDeviceData = (data)=>{
     try{
         wx.setStorageSync("device-key", data)
@@ -52,5 +60,6 @@ module.exports = {
     setUserinfo: setUserinfo,
     getGroupData: getGroupData,
     getDeviceData: getDeviceData,
-    getUserinfo: getUserinfo, 
+    getUserinfo: getUserinfo,
+    setDealDeviceData: setDealDeviceData,
 }
