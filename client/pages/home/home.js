@@ -7,10 +7,14 @@ Page({
             'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
             'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
         ],
+
+        //用于滚动窗口参数
         indicatorDots: true,
         autoplay: true,
         interval: 3000,
         duration: 100,
+
+        //用于记录device数据和group数据
         devices: null,
         groups: null,
     },
@@ -25,7 +29,6 @@ Page({
 
     onPullDownRefresh: function () {
         this.updataData();
-
     },
 
     updataData:function(){
