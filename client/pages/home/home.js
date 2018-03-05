@@ -1,4 +1,5 @@
-let req2Sync = require("../../storage/req2Sync.js");
+const req2Sync = require("../../storage/req2Sync.js");
+const app = getApp();
 
 Page({
     data: {
@@ -7,11 +8,14 @@ Page({
             'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
             'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
         ],
+
+        //用于滚动窗口参数
         indicatorDots: true,
         autoplay: true,
         interval: 3000,
         duration: 100,
-        devices: null,
+
+        //用于记录group数据
         groups: null,
     },
 
@@ -25,7 +29,6 @@ Page({
 
     onPullDownRefresh: function () {
         this.updataData();
-
     },
 
     updataData:function(){
@@ -44,11 +47,8 @@ Page({
 
         }
         this.setData({
-            devices: devices,
             groups: groups
         })
-        console.log(this.data.groups);
-        console.log(this.data.devices);
         wx.stopPullDownRefresh();
     },
     
