@@ -9,9 +9,7 @@ var app = getApp()
 Page({
     data: {
         devices: null,
-        deviceNames: null,
-        sensors: null,
-        gnames: null,
+
         deviceSelected: true,
         groupSelected: false,
         groups: null,
@@ -21,123 +19,144 @@ Page({
         showModalStatus: false 
     },
     onLoad: function () {
-        var that = this;
-        let userId = wx.getStorageSync("userinfo").id;
-        
-        wx.showLoading({
-            title: '加载中',
-        });
-        wx.setNavigationBarTitle({
-            title: '设备管理',
-        });
-        req2Sync.reqDevices();
-        req2Sync.reqGroups();
-        this.getDeviceName(wx.getStorageSync("device-key"));
-        this.setData({
-            groups: wx.getStorageSync('groups'),
-        });
-        wx.hideLoading();
+      this.onShow();
     },
 
     onShow:function(){
-        wx.showLoading({
-            title: '加载中',
-        });
-        req2Sync.reqDevices();
-        req2Sync.reqGroups();
-        this.getDeviceName(wx.getStorageSync("device-key"));
+      let reqDevices = this.getDevices();
+      reqDevices.then(res => {
         this.setData({
-            groups: wx.getStorageSync('groups'),
-        });
-        wx.hideLoading();
+          devices: res,
+        })
+      });
+      let reqGroups = this.getGroups();
+      reqGroups.then(res => {
+        this.setData({
+          groups: res,
+        })
+      }).then(() => {
+        console.log(this.data.groups);
+      })
     },
 
     onPullDownRefresh:function(){
-        req2Sync.reqDevices();
-        req2Sync.reqGroups();
-        this.getDeviceName(wx.getStorageSync("device-key"));
-        this.setData({
-            groups: wx.getStorageSync('groups'),
-        });
-
-        wx.stopPullDownRefresh();
+        this.onShow();
     },
 
-    getDeviceName: function (devices) {
-        console.log("-----------------")
-        console.log(devices);
-        var dns = new Array();
-        var dls = new Array();
-        var sensorFlows = new Array();
-        var si = 0;
-        for (var i in devices) {
-        sensorFlows[i] = new Array();
-        var isExist = false;
-        for (var j in dns) {
-            if (dns[j] === devices[i].dname) {
-            sensorFlows[i][si] = devices[i].sdataflow;
-            si++;
-            isExist = true;
-            }
+    /****************************************************************** */
+    getDevices: function(){
+      return new Promise((resolve, reject)=>{
+        let devices = wx.getStorageSync("deal-device-key");
+        if(devices){
+          resolve(devices);
+        } else{
+          reject(false);
         }
-        if (isExist === false) {
-            dns.push(devices[i].dname);
-            dls.push(devices[i].gname);
-            sensorFlows[i][si] = devices[i].sdataflow;
-            si++;
-        }
-        }
-        console.log(this.data.devices);
-
-        this.setData({
-            deviceNames: dns,
-            gnames: dls,
-            sensors: sensorFlows,
-        });
+      })
     },
 
-    deleteDevice:function(event){
-        //由于时间紧迫，只能先按照之前的方案，根据设备名称，找出设备id
-        let that = this;
-        let dName = event.currentTarget.dataset.dname;
-        let devices = wx.getStorageSync("device-key");
-        let deviceId = 0;
-        for(var i in devices){
-            if(devices[i].dname == dName){
-                deviceId = devices[i].did;
-                break;
-            }
+    getGroups: function(){
+      return new Promise((resolve, reject)=>{
+        let groups = wx.getStorageSync("groups");
+        if(groups){
+          resolve(groups);
+        } else{
+          reject(false);
         }
-        // console.log(deviceId);
-        wx.showModal({
+      });
+    },
+
+    delDevice:function(event){
+      let that = this;
+      let dName = event.currentTarget.dataset.dname;
+      let device = null;
+      let devices = this.data.devices;
+      let removeIndex = null;
+      for(let i in devices){
+        if(dName = devices[i][1]){
+          device = devices[i];
+          removeIndex = parseInt(i);
+          break;
+        }
+      }
+      wx.showModal({
         content: "是否删除？",
-            success:function(res){
-                if(res.confirm){          
-                    //做设备删除操作
-                    GET_REQ.GET({
-                        uri: "/del_device?deviceId=" + deviceId,
-                        param: {},
-                        success:function(res){
-                            req2Sync.reqDevices();
-                            that.getDeviceName(wx.getStorageSync("device-key"));
-                        },
-                        fail:function(err){
-
-                        } 
-                    });
-                } else if(res.cancel){
-                    console.log("no");
+        success:function(res){
+          if(res.confirm){
+            console.log("--------"+device);
+            wx.showLoading({
+              title: '正在删除设备……',
+            })
+            let reqDelDevice = that.reqDelDevice(device);
+            reqDelDevice.then(res=>{
+              // console.log(res);
+              // that.onLoad();
+              devices.splice(removeIndex, 1);
+              for(let i in devices){
+                if(devices[i][0] == null){
+                  devices.splice(parseInt(i), 1);
                 }
-            }
-        })
+              }
+              return devices;
+            }).then(newDevices=>{
+              wx.setStorageSync("deal-device-key", newDevices);
+            }).then(()=>{
+              that.onShow();
+            }).then(()=>{
+              wx.hideLoading();
+            }).catch(e=>{
+              console.log(e);
+            })
+            
+          } else if(res.cancel){
+            console.log("no");
+          }
+        }
+      })
+      
     },
 
-  deviceDetail:function(event){
-    var name = event.currentTarget.dataset.dname;
-    wx.navigateTo({
-      url: '../manager-modify-add/manager-modify-device/manager-modify-device?name='+name,
-    })
-  },
+    reqDelDevice: function(device){
+      return new Promise((resolve, reject) => {
+        //做设备删除操作
+        GET_REQ.GET({
+          uri: "/del_device?deviceId=" + device[0],
+          param: {},
+          success: function (res) {
+            // req2Sync.reqDevices();
+            // that.getDeviceName(wx.getStorageSync("device-key"));
+            resolve(res);
+          },
+          fail: function (err) {
+            reject(false);
+          }
+        });
+
+      })
+    },
+
+    deviceDetail: function (event) {
+      let dName = event.currentTarget.dataset.dname;
+      let device = null;
+      let devices = this.data.devices;
+      let removeIndex = null;
+      for (let i in devices) {
+        if (dName == devices[i][1]) {
+          device = devices[i];
+          break;
+        }
+      }
+      console.log(device);
+      wx.navigateTo({
+        url: '../manager-modify-add/manager-modify-device/manager-modify-device?device=' + JSON.stringify(device),
+      })
+    },
+
+
+    /****************************************************************** */
+
+
+
 
   deviceSelected:function(e) {
     this.setData({
@@ -151,8 +170,8 @@ Page({
       groupSelected: true
     })
   },
+
   deviceAdd:function(){
-    
       wx.navigateTo({
           url: '../manager-modify-add/manager-add-device/manager-add-device',
       })

@@ -90,7 +90,9 @@ Page({
   },
 
   onHide:function(){
+    if(this.data.thimer0){
       clearInterval(this.data.timer0);
+    }
   },
 
   showCharts:function(event){

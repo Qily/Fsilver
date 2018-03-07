@@ -19,28 +19,29 @@ Page({
     },
 
     onLoad:function(){
-        this.updataData();
+        this.onShow();
     },
 
     onShow:function(){
-        
+      let groups = null;
+      new Promise((resolve, reject)=>{
+        groups = wx.getStorageSync("groups");
+        if(groups){
+          resolve(groups);
+        } else{
+          reject(false);
+        }
+      }).then(res=>{
+        this.setData({
+          groups: groups
+        })
+      }).catch(e=>{
+        console.log(e);
+      })
     },
 
-    // onPullDownRefresh: function () {
-    //     this.updataData();
-    // },
-
-    updataData:function(){
-        let groups = null;
-        try {
-            groups = wx.getStorageSync("groups");
-        } catch (e) {
-
-        }
-        this.setData({
-            groups: groups
-        })
-        // wx.stopPullDownRefresh();
+    onPullDownRefresh: function () {
+        this.onShow();
     },
     
     groupData:function(e){

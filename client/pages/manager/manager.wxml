@@ -5,10 +5,10 @@
     <view class="{{groupSelected?'red':'default'}}" bindtap="groupSelected">组别</view>
   </view>
   <view class="{{deviceSelected?'show':'hidden'}}">
-    <view wx:for="{{deviceNames}}" wx:key="index">
+    <view wx:for="{{devices}}" wx:key="index">
       <view hover="true" hover-class="green_hover">
-        <view class="device-name oneline" catchlongpress="deleteDevice" bindtap='deviceDetail' data-dname="{{deviceNames[index]}}">
-          <view><image src="../../images/icon/monitor_device.png"/><text>{{deviceNames[index]}}</text></view>
+        <view class="device-name oneline" catchlongpress="delDevice" bindtap='deviceDetail' data-dname="{{devices[index][1]}}">
+          <view><image src="../../images/icon/monitor_device.png"/><text>{{devices[index][1]}}</text></view>
         </view>
       </view>
     </view>
