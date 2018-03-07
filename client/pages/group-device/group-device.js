@@ -1,6 +1,5 @@
 // pages/group-device/group-device.js
 const GET_REQ = require("../../request/getReq.js");
-const Storage = require("../../storage/storSync.js");
 const my_config = require("../../commons/config.js");
 
 Page({
@@ -9,11 +8,6 @@ Page({
    */
   data: {
       groupName: "",
-
-      // deviceNames: null,
-      // deviceLocas: null,
-      // sensors: null,
-      // sensorDatas: null,
       devices: null,
   },
 

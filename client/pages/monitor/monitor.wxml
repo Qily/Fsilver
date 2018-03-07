@@ -6,43 +6,43 @@
     <view class="{{deviceSelected?'show':'hidden'}}">
         <!-- ********************************************************************************** -->  
         <!-- 列表数据开始 -->
-        <view wx:for="{{deviceNames}}" wx:key="index">
-            <view class="line line-control device">
-                <view bindtap="showCharts" data-dname="{{deviceNames[index]}}">
-                    <view class="single-sensor-title">
-                        <image class="device-img" src="../../images/icon/monitor_device.png" style='width:24px;height:24px'></image>
-                        <text class="device-name">{{deviceNames[index]}}</text>
-                        <text class="device-gname">{{gnames[index]}}</text>
-                    </view>
+        <view wx:for="{{devices}}" wx:key="index">
+          <view class="line line-control device">
+              <view bindtap="showCharts" data-dname="{{devices[index][1]}}">
+                  <view class="single-sensor-title">
+                      <image class="device-img" src="../../images/icon/monitor_device.png" style='width:24px;height:24px'></image>
+                      <text class="device-name">{{devices[index][1]}}</text>
+                      <text class="device-gname">{{devices[index][2]}}</text>
+                  </view>
 
-                    <view class="single-device-sensors">
-                        <view wx:for="{{sensors[index]}}" wx:for-index="idx" wx:key="index">
-                            <view class="sensors">
-                                <view wx:if="{{sensors[index][idx] === 'humidity_data_flow'}}" class="single-sensor">
-                                    <image src="../../images/icon/monitor_humi.png"></image>
-                                    {{sensorDatas[0][0]}}
-                                </view> 
-                                <view wx:if="{{sensors[index][idx]  === 'temperature_data_flow'}}" class="single-sensor">
-                                    <image src="../../images/icon/monitor_temp.png"></image>
-                                    {{sensorDatas[index][idx]}}
-                                </view> 
-                                <view wx:if="{{sensors[index][idx]  === 'close_on_data_flow'}}" class="single-sensor">
-                                    <image src="../../images/icon/monitor_close_on.png"></image>
-                                    {{sensorDatas[index][idx]}}
-                                </view>
-                                <view wx:if="{{sensors[index][idx]  === 'light_data_flow'}}" class="single-sensor">
-                                    <image src="../../images/icon/monitor_light.png"></image>
-                                    {{sensorDatas[index][idx]}}
-                                </view> 
-                                <view wx:if="{{sensors[index][idx]  === 'co2_data_flow'}}" class="single-sensor">
-                                    <image src="../../images/icon/monitor_co2.png"></image>
-                                    {{sensorDatas[index][idx]}}
-                                </view>   
-                            </view>   
-                        </view>
-                    </view>
-                </view>
-            </view>
+                  <view class="single-device-sensors">
+                      <view wx:for="{{devices[index][9]}}" wx:for-index="idx" wx:key="index">
+                          <view class="sensors">
+                              <view wx:if="{{devices[index][8][idx] === 'humidity_data_flow'}}" class="single-sensor">
+                                  <image src="../../images/icon/monitor_humi.png"></image>
+                                  {{devices[index][9][idx]}}
+                              </view> 
+                              <view wx:if="{{devices[index][8][idx]  === 'temperature_data_flow'}}" class="single-sensor">
+                                  <image src="../../images/icon/monitor_temp.png"></image>
+                                  {{devices[index][9][idx]}}
+                              </view> 
+                              <view wx:if="{{devices[index][8][idx]  === 'close_on_data_flow'}}" class="single-sensor">
+                                  <image src="../../images/icon/monitor_close_on.png"></image>
+                                  {{devices[index][9][idx]}}
+                              </view>
+                              <view wx:if="{{devices[index][8][idx]  === 'light_data_flow'}}" class="single-sensor">
+                                  <image src="../../images/icon/monitor_light.png"></image>
+                                  {{devices[index][9][idx]}}
+                              </view> 
+                              <view wx:if="{{devices[index][8][idx]  === 'co2_data_flow'}}" class="single-sensor">
+                                  <image src="../../images/icon/monitor_co2.png"></image>
+                                  {{devices[index][9][idx]}}
+                              </view>   
+                          </view>   
+                      </view>
+                  </view>
+              </view>
+          </view>
         </view>
         <!-- 列表view结束 -->
         <!-- ********************************************************************************** -->
@@ -51,7 +51,7 @@
         <!-- ********************************************************************************** -->
         <!-- 场景数据开始 -->
 
-        <view class="scenes" wx:for="{{sceneData}}" wx:key="{{item.id}}">
+        <view class="scenes" wx:for="{{scenes}}" wx:key="{{item.id}}">
             <view>
                 <!-- <image class="scene_image" src="{{item.img_path}}" mode="widthFix"></image>
                 <image src="../../images/icon/monitor_light.png" style='width:24px;height:24px;position:absoulte;left:10px;top:10px;'></image>   -->

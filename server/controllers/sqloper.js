@@ -153,7 +153,7 @@ let getMetUserinfo = async (ctx, next)=>{
 let getScenes = async (ctx, next)=>{
     console.log("******************************************sqlOper::GetScenes");    
     let userId = ctx.request.query.userId;
-    let queryStr = "SELECT t1.id, t1.name, t1.img_path, t2.device_id, t2.rela_width, t2.rela_height FROM met_userdata_scene t1 LEFT JOIN met_userdata_scene_device t2 ON t1.id = t2.scene_id WHERE t1.create_man_id = " + userId + " ORDER BY t1.img_path ASC";
+    let queryStr = "SELECT t1.id, t1.name, t1.img_path, t2.device_id, t2.rela_width, t2.rela_height FROM met_userdata_scene t1 LEFT JOIN met_userdata_scene_device t2 ON t1.id = t2.scene_id WHERE t1.create_man_id = " + userId + " ORDER BY t1.id, t2.device_id ASC";
     var rows = await p.query(queryStr);
     ctx.body = { "scenes": rows };
 }

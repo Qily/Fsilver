@@ -1,4 +1,3 @@
-const req2Sync = require("../../storage/req2Sync.js");
 const app = getApp();
 
 Page({
@@ -27,20 +26,12 @@ Page({
         
     },
 
-    onPullDownRefresh: function () {
-        this.updataData();
-    },
+    // onPullDownRefresh: function () {
+    //     this.updataData();
+    // },
 
     updataData:function(){
-        req2Sync.reqGroups();
-        req2Sync.reqDevices();
-        let devices = null;
         let groups = null;
-        try {
-            devices = wx.getStorageSync("device-key");
-        } catch (e) {
-
-        }
         try {
             groups = wx.getStorageSync("groups");
         } catch (e) {
@@ -49,7 +40,7 @@ Page({
         this.setData({
             groups: groups
         })
-        wx.stopPullDownRefresh();
+        // wx.stopPullDownRefresh();
     },
     
     groupData:function(e){
