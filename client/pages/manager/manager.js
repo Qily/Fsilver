@@ -4,7 +4,6 @@ const my_config = require("../../commons/config.js");
 const util = require("../../utils/util.js");
 const POST_REQ = require("../../request/postReq.js");
 const GET_REQ = require("../../request/getReq.js");
-const req2Sync = require("../../storage/req2Sync.js");
 
 var app = getApp() 
 Page({
