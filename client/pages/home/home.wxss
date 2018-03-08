@@ -20,3 +20,32 @@ swiper-item image{
     color: #1111fe; 
     padding-left: 20px;
 }
+
+.oneline image{
+    width:48px;
+    height:48px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.oneline view{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.group-name{
+  background-color:rgba(40, 240, 40, 0.2);
+  opacity: 60%;
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.group-name text{
+  font-size: 24px;
+  color: #232323;
+}

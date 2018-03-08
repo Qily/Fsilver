@@ -15,7 +15,7 @@
       <view bindtap='shop'><image src="../../../images/icon/buy_record.png"/>购买记录</view>
     </view>
     <view class="oneline">
-      <view bindtap='shop'><image src="../../../images/icon/address.png"/>收货地址</view>
+      <view bindtap='addressList'><image src="../../../images/icon/address.png"/>收货地址</view>
     </view>
   </view>
 </view>

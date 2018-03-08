@@ -37,14 +37,14 @@ Page({
       success:function(res){
           console.log("++++++++++++++++++++++");
           console.log(res.data);
-        // if (res.data.products) {
-        //   for (var i in res.data.products) {
-        //     res.data.products[i].imgurl = "http://www.ddwulian.net" + res.data.products[i].imgurl.slice(2);
-        //   }
-        // }
-        // that.setData({
-        //   products: res.data.products,
-        // })
+        if (res.data.products) {
+          for (var i in res.data.products) {
+            res.data.products[i].imgurl = "http://www.ddwulian.net" + res.data.products[i].imgurl.slice(2);
+          }
+        }
+        that.setData({
+          products: res.data.products,
+        })
       },
       fail:function(err){
         console.log(err);

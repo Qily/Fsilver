@@ -9,7 +9,11 @@
 
     </swiper>
 
-    <view class="group" wx:for="{{groups}}" wx:key="index">
-        <view class="one-group" bindtap='groupData' data-groupid='{{index}}'><image src="../../images/icon/g_{{index+1}}.png" mode='widthFix'></image><text>{{item.name}}</text></view> 
+    <view wx:for="{{groups}}" wx:key="index">
+      <view hover="true" hover-class="green_hover">
+        <view class="group-name oneline" bindtap='groupData' data-groupid='{{index}}'>
+          <view><image src="../../images/icon/g_{{index%8+1}}.png" mode='widthFix'/><text>{{item.name}}</text></view>
+        </view>
+      </view>
     </view>
 </view>

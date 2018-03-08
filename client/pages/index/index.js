@@ -45,7 +45,13 @@ Page({
       deviceRequest.then(res=>{
         return this.setGlobalDeviceData(res);
       }).then(res=>{
+        for(let i in res){
+          if(res[i][0] == null){
+            res.splice(parseInt(i), 1);
+          }
+        }
         wx.setStorageSync("deal-device-key", res);
+
       })
     }).then(()=>{
       wx.hideLoading();

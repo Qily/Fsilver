@@ -19,7 +19,11 @@ textarea{
   color: #010101;
 }
 .save-info{
-  margin:32px;
+  /* margin:32px; */
+  float: right;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
 }
 .disabled-value{
     background-color: #DDD;

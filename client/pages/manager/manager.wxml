@@ -5,27 +5,28 @@
     <view class="{{groupSelected?'red':'default'}}" bindtap="groupSelected">组别</view>
   </view>
   <view class="{{deviceSelected?'show':'hidden'}}">
-    <view wx:for="{{deviceNames}}" wx:key="index">
+    <view wx:for="{{devices}}" wx:key="index">
       <view hover="true" hover-class="green_hover">
-        <view class="device-name oneline" catchlongpress="deleteDevice" bindtap='deviceDetail' data-dname="{{deviceNames[index]}}">
-          <view><image src="../../images/icon/monitor_device.png"/><text>{{deviceNames[index]}}</text></view>
+        <view class="device-name oneline" catchlongpress="delDevice" bindtap='deviceDetail' data-dname="{{devices[index]}}">
+          <view><image src="../../images/icon/monitor_device.png"/><text>{{devices[index][1]}}</text></view>
         </view>
       </view>
     </view>
     <view class="device-add">
-      <button type="primary" bindtap='deviceAdd'>添加设备</button>
+       <image src="../../images/icon/add_float.png" bindtap='deviceAdd' class="post"/>
     </view>
   </view>
   <view class="{{groupSelected?'show':'hidden'}}">
     <view wx:for="{{groups}}" wx:key="index">
       <view hover="true" hover-class="green_hover">
-        <view class="group-name oneline" catchlongpress="deleteGroup" bindtap="groupDetail" data-group='{{groups[index]}}'>
+        <view class="group-name oneline" catchlongpress="deleteGroup" bindtap="groupDetail" data-gindex='{{index}}'>
           <view><image src="../../images/icon/group.png"/><text>{{groups[index].name}}</text></view>
         </view>
       </view>
     </view>
     <view class="group-add">
-      <button type="primary" bindtap='addGroup'>添加组别</button>
+      <!-- <button type="primary" bindtap='addGroup'>添加组别</button> -->
+      <image src="../../images/icon/add_float.png" bindtap='addGroup' class="post"/>
     </view>
 
 
