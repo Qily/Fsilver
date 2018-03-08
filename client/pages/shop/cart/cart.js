@@ -1,5 +1,6 @@
 // pages/shop/cart/cart.js
 const my_config = require("../../../commons/config.js");
+const GET_REQ = require("../../../request/getReq.js");
 
 Page({
 
@@ -23,7 +24,11 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+      
+  },
+
+  onShow: function(){
+      this.getCartInfo();
   },
 
   getCartInfo:function(){
@@ -31,7 +36,7 @@ Page({
     wx:wx.request({
       url: my_config.host + "/weapp/cart_info",
       data: {
-        userId: 7,
+        userId: wx.getStorageSync("userinfo").id,
       },
       header: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -73,6 +78,56 @@ Page({
     this.setData({
       needpay: temp,
     })
+  },
+
+  delSingleCart:function(e){
+      let that = this;
+      wx.showModal({
+          content: "是否删除？",
+          success: function (res) {
+              if (res.confirm) {
+                  wx.showLoading({
+                      title: '正在删除设备……',
+                  })
+                  let reqDelCart = that.reqDelCart(e.currentTarget.dataset.cart);
+                  reqDelCart.then(res => {
+                    if(res.data.delCartRes.affectedRows){
+                        that.getCartInfo();
+                    } else{
+                        that.getCartInfo();
+                    }
+                  }).then(() => {
+                      //刷新页面，保证当前页面显示的是最新的数据
+                      that.onShow();
+                  }).then(() => {
+                      wx.hideLoading();
+                  }).catch(e => {
+                      console.log(e);
+                  })
+
+              } else if (res.cancel) {
+                  console.log("no");
+              }
+          }
+      })
+  },
+
+
+  reqDelCart: function (productId) {
+      return new Promise((resolve, reject) => {
+          //做设备删除操作（后台请求）
+          GET_REQ.GET({
+              uri: "/del_cart?productId=" + productId+"&userId="+wx.getStorageSync("userinfo").id,
+              param: {},
+              success: function (res) {
+                  resolve(res);
+              },
+              fail: function (err) {
+                  reject(false);
+              }
+          });
+
+      })
   },
 
   /**

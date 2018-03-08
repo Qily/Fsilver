@@ -16,7 +16,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(JSON.parse(decodeURIComponent(options.info)));
     this.setData({
       info: JSON.parse(decodeURIComponent(options.info)),
     })
@@ -62,26 +61,34 @@ Page({
 
   addProduct:function(){
     var a = 0;
-    if(this.data.count < this.data.info.stock){
-      a = this.data.count + 1;
-      this.setData({
-        count:a,
-      })
-    }
+    // if(this.data.count < this.data.info.stock){
+    //   a = this.data.count + 1;
+    //   this.setData({
+    //     count:a,
+    //   })
+    // }
+    a = this.data.count + 1;
+    this.setData({
+        count: a,
+    })
   },
 
   buyProduct:function(){
     let that = this;
     wx:wx.request({
       url: my_config.host+"/weapp/buy_product",
-      data: Util.json2Form({userId: 6, productId: that.data.info.id, productCount: that.data.count}),
+    //   data: Util.json2Form({userId: 7, productId: that.data.info.id, productCount: that.data.count}),
+      data: Util.json2Form({ userId: wx.getStorageSync("userinfo").id, productId: that.data.info.id, productCount: that.data.count }),
+    
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
       method: 'POST',
       // dataType: json,
       // responseType: text,
-      success: function(res) {},
+      success: function(res) {
+          console.log(res.data.buyPro)
+      },
       fail: function(res) {},
       complete: function(res) {},
     })

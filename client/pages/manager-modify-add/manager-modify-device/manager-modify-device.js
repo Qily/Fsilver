@@ -82,6 +82,9 @@ Page({
 
 
     updateDevice:function(){
+        wx.showLoading({
+          title: '正在更新……',
+        })
         let params = new Object();
         params.deviceId = this.data.device[0];
         params.deviceName = this.data.device[1];
@@ -113,14 +116,7 @@ Page({
             }
             wx.setStorageSync("deal-device-key", res);
           }).then(()=>{
-            wx.switchTab({
-              url: '/pages/manager/manager',
-              success: e => {
-                var page = getCurrentPages().pop();
-                if (page == undefined || page == null) return;
-                page.onShow();
-              }
-            })
+            wx.hideLoading();
           }).catch(e => {
             console.log(e);
           })

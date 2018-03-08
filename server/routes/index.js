@@ -27,11 +27,15 @@ router.post("/add_group", controllers.sqloper.addGroup);
 
 router.post("/delete_group", controllers.sqloper.deleteGroup);
 
+router.post("/update_group", controllers.sqloper.updateGroup);
+
 router.get("/del_device", controllers.sqloper.delDevice);
 
 router.post("/add_device", controllers.sqloper.addDevice);
 
 router.post("/update_device", controllers.sqloper.updateDevice);
+
+router.get("/del_cart", controllers.sqloper.delCart);
 
 
 //云平台交互测试
