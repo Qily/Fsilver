@@ -26,7 +26,7 @@
                                   <image src="../../images/icon/monitor_temp.png"></image>
                                   {{devices[index][9][idx]}}
                               </view> 
-                              <view wx:if="{{devices[index][8][idx]  === 'close_on_data_flow'}}" class="single-sensor">
+                              <view wx:if="{{devices[index][8][idx]  === 'switch_data_flow'}}" class="single-sensor">
                                   <image src="../../images/icon/monitor_close_on.png"></image>
                                   {{devices[index][9][idx]}}
                               </view>

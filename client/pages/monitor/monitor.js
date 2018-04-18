@@ -38,13 +38,11 @@ Page({
                 this.getSensorValue(i, j, 1);
             }
         }
-        console.log(this.data.devices);
     },
 
     getSensorValue: function (i, j, num) {
         var that = this;
         let devices = this.data.devices;
-        console.log(devices);
         var uri = encodeURIComponent("devices/" + devices[i][6] + "/datapoints");
         var param = encodeURIComponent("&datastream_id=" + devices[i][8][j] + "&limit=" + num)
         wx.request({
@@ -55,7 +53,8 @@ Page({
             },
             success: function (res) {
                 var sensorValue = 0;
-                if (JSON.parse(res.data._data.split('(')[1].split(')')[0]).data.datastreams[0] != null) {
+                let dat = JSON.parse(res.data._data.split('(')[1].split(')')[0]).data.datastreams[0];
+                if (dat != "" && dat != null) {
                     sensorValue = JSON.parse(res.data._data.split('(')[1].split(')')[0]).data.datastreams[0].datapoints[0].value;
                 }
                 var sensorKey = 'devices[' + i + '][9][' + j + ']';
@@ -72,7 +71,7 @@ Page({
     onShow: function () {
         var that = this;
         this.data.timer0 = setInterval(function () {
-            if (that.data.sensors) {
+            if (that.data.devices) {
                 that.setSensorValue();
             }
         }, 5000);
@@ -86,7 +85,6 @@ Page({
             duration: 1000
         });
         wx.stopPullDownRefresh();
-
     },
 
     onHide: function () {
@@ -101,7 +99,7 @@ Page({
         wx.navigateTo({
             url: '../monitor-chart/monitor-chart?name=' + deviceName,
             success: function (res) {
-                console.log(deviceName);
+                // console.log(deviceName);
             },
             fail: function (res) { },
             complete: function (res) { },
@@ -170,7 +168,6 @@ Page({
             let device = this.getDeviceById(scenes[canvasId][3][i][0]);
             if(device){
                 for (let j in device[8]) {
-                    // console.log(this.getSensorImage(device[8][j]));
                     context.drawImage(this.getSensorImage(device[8][j]),
                         this.data.scenes[canvasId][3][i][1],
                         this.data.scenes[canvasId][3][i][2] + 24 * j, 24, 24);
@@ -203,7 +200,7 @@ Page({
             case "light_data_flow":
                 sensorImgPath = "../../../images/icon/monitor_light.png";
                 break;
-            case "colse_on_data_flow":
+            case "switch_data_flow":
                 sensorImgPath = "../../../images/icon/monitor_close_on.png";
                 break;
             case "co2_data_flow":

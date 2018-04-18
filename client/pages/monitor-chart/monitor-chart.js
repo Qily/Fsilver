@@ -2,7 +2,7 @@
 const my_config = require("../../commons/config.js");
 const GET_REQ = require("../../request/getReq.js");
 
-var lineChart = new Array();
+// var lineChart = new Array();
 
 Page({
     /**
@@ -12,6 +12,8 @@ Page({
         device: null,
         sensorsData: null,
         charts: null,
+
+        lcs: null,
     },
 
 
@@ -39,10 +41,13 @@ Page({
             this.setData({
                 sensorsData: res,
             })
+            console.log("+++++++++++++++");
+            console.log(this.data.sensorsData);
         }).then(() => {
             for (let i in this.data.sensorsData) {
                 this.getSensorsValue(i);
                 // this.data.sensorsData[i].pop();
+                console.log("*******************************")
                 console.log(this.data.sensorsData[i]);
             }
         })
@@ -83,7 +88,9 @@ Page({
     },
 
     getSensorsValue: function (i) {
+
         let sensorValue = this.getSensorValue(i, this.data.device[6], 10);
+        
         sensorValue.then(res => {
             let dataValue = [];
             let dataTime = [];
@@ -92,7 +99,11 @@ Page({
             if (JSON.parse(res.split('(')[1].split(')')[0]).data.datastreams[0] != null) {
                 reqSensorValue = JSON.parse(res.split('(')[1].split(')')[0]).data.datastreams[0];
                 for (var j in reqSensorValue.datapoints) {
-                    dataValue.push(reqSensorValue.datapoints[j].value);
+                    let tmp = parseInt(reqSensorValue.datapoints[j].value);
+                    if (tmp == null){
+                        tmp = 0;
+                    }
+                    dataValue.push(tmp);
                     dataTime.push(reqSensorValue.datapoints[j].at.slice(5, 19));
                 }
                 if (this.data.sensorsData[i][0] == reqSensorValue.id) {
@@ -105,6 +116,8 @@ Page({
                 }
             }
         }).then(() => {
+            console.log("===========================");
+            console.log(this.data.sensorsData);
             if(this.data.sensorsData[i][2]){
                 this.paintLineChart(i.toString(), this.data.sensorsData[i][1][0], this.data.sensorsData[i][1][1], this.data.sensorsData[i][1][2], this.data.sensorsData[i][2][0], this.data.sensorsData[i][2][1]);
             }
@@ -127,6 +140,10 @@ Page({
                 singleSensorInfo.push("湿度传感器(%RH)");
                 singleSensorInfo.push("湿度");
                 singleSensorInfo.push("%");
+            } else{
+                singleSensorInfo.push("其他传感器");
+                singleSensorInfo.push("其他");
+                singleSensorInfo.push("");
             }
             singleSensorData.push(device[8][i]);
             singleSensorData.push(singleSensorInfo);
@@ -149,36 +166,42 @@ Page({
         }
         var wxCharts = require('../../utils/wxcharts.js');
         var xData = xData;
-        lineChart[canvasId] = new wxCharts({
-            canvasId: canvasIdStr,
-            background: '#eeeeee',
-            animation: false,
-            legend: false,
-            type: 'line',
-            categories: xData,
-            series: [{
-                name: seriesName,
-                data: yData,
-                format: function (val) {
-                    return val.toFixed(0) + unitName;
-                }
-            }],
-            yAxis: {
-                title: titleName,
-                format: function (val) {
-                    return val.toFixed(0);
+        let lineChart = 'lcs['+ parseInt(canvasId)  + ']';
+        this.setData({
+            [lineChart] : new wxCharts({
+                canvasId: canvasIdStr,
+                background: '#eeeeee',
+                animation: false,
+                legend: false,
+                type: 'line',
+                categories: xData,
+                series: [{
+                    name: seriesName,
+                    data: yData,
+                    format: function (val) {
+                        // return val.toFixed(0) + unitName;
+                        return val + unitName;
+                    }
+                }],
+                yAxis: {
+                    title: titleName,
+                    format: function (val) {
+                        // return val.toFixed(0);
+                        return val;
+                    },
+                    // min: 0
                 },
-                // min: 0
-            },
-            width: wWidth,
-            height: 200,
-            dataLabel: true,
-            dataPointShape: true,
-            enableScroll: true,
-            extra: {
-                lineStyle: 'curve'
-            }
-        });
+                width: wWidth,
+                height: 200,
+                dataLabel: true,
+                dataPointShape: true,
+                enableScroll: true,
+                extra: {
+                    lineStyle: 'curve'
+                }
+            }),
+        })
+        
     },
 
     /**
@@ -209,29 +232,43 @@ Page({
 
 
     touchHandler: function (e) {
+        let that = this;
         try {
             let idx = parseInt(e.target.id);
-            lineChart[idx].scrollStart(e);
+            console.log("start");
+            console.log(that.data.lcs[idx]);
+            that.data.lcs[idx].scrollStart(e);
         } catch (err) {
 
         }
 
     },
     moveHandler: function (e) {
+        let that = this;
         try {
             let idx = parseInt(e.target.id);
-            lineChart[idx].scroll(e);
+            console.log("ing");
+            console.log(that.data.lcs[idx]);
+            that.data.lcs[idx].scroll(e);
         } catch (err) {
 
         }
     },
     touchEndHandler: function (e) {
-        let idx = parseInt(e.target.id);
-        lineChart[idx].scrollEnd(e);
-        lineChart[idx].showToolTip(e, {
-            format: function (item, category) {
-                return category + ' ' + item.name + ':' + item.data
-            }
-        });
+        let that = this;
+        try{
+            let idx = parseInt(e.target.id);
+            console.log("end");
+            console.log(that.data.lcs[idx]);
+            that.data.lcs[idx].scrollEnd(e);
+            that.data.lcs[idx].showToolTip(e, {
+                format: function (item, category) {
+                    return category + ' ' + item.name + ':' + item.data
+                }
+            });
+        } catch(err){
+
+        }
+        
     },
 })
